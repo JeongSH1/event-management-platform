@@ -1,4 +1,4 @@
 export enum USER_ACTION {
-  ATTENDANCE = 'attendance',
+  RECOMMENDED = 'recommended',
   EDIT_INFO = 'edit_info',
 }

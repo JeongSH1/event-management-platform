@@ -16,10 +16,10 @@ export class AuditService {
     const { userId, action, after } = createUserLogDto;
 
     const tasks: Record<USER_ACTION, (userId: string) => Promise<UserLog>> = {
-      [USER_ACTION.ATTENDANCE]: async (userId: string) => {
+      [USER_ACTION.RECOMMENDED]: async (userId: string) => {
         return this.userLogModel.create({
           userId,
-          action: USER_ACTION.ATTENDANCE,
+          action: USER_ACTION.RECOMMENDED,
         });
       },
 
