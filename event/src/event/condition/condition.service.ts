@@ -7,6 +7,7 @@ import {
   ConditionCategoryDocument,
 } from './schemas/condition-category.schema';
 import { Model } from 'mongoose';
+import { Condition } from './schemas/condition.schema';
 
 @Injectable()
 export class ConditionService {
@@ -15,27 +16,24 @@ export class ConditionService {
     private readonly conditionCategoryModel: Model<ConditionCategoryDocument>,
   ) {}
 
-  create(createConditionDto: CreateConditionDto) {
-    return 'This action adds a new condition';
+  async createObject(dto: CreateConditionDto): Promise<Condition> {
+    const conditionCategory: ConditionCategory =
+      await this.conditionCategoryModel.findOne({
+        code: dto.conditionCategoryCode,
+      });
+
+    return {
+      category: {
+        code: dto.conditionCategoryCode,
+        description: conditionCategory.description,
+      },
+      threshold: dto.threshold,
+      startAt: dto.startAt,
+      endAt: dto.endAt,
+    };
   }
 
-  async findAllCategory(): Promise<ConditionCategory[]> {
+  async findAllConditionCategory(): Promise<ConditionCategory[]> {
     return this.conditionCategoryModel.find().sort({ code: 1 });
-  }
-
-  findAll() {
-    return `This action returns all condition`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} condition`;
-  }
-
-  update(id: number, updateConditionDto: UpdateConditionDto) {
-    return `This action updates a #${id} condition`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} condition`;
   }
 }
