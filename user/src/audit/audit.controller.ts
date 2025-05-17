@@ -21,8 +21,13 @@ export class AuditController {
   }
 
   @Get('log')
-  findAllUserLog() {
-    return this.auditService.findAllUserLog();
+  findAllLog() {
+    return this.auditService.findAllLog();
+  }
+
+  @Get('log/:userId')
+  findAllUserLog(@Param('userId') userId: string) {
+    return this.auditService.findAllUserLog(userId);
   }
 
   @Get('log/:userId')

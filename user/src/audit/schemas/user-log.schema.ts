@@ -17,6 +17,8 @@ export class UserLog {
 
   @Prop({ type: Object })
   after?: Record<string, any>;
+
+  createdAt?: Date;
 }
 
 export const UserLogSchema = SchemaFactory.createForClass(UserLog);

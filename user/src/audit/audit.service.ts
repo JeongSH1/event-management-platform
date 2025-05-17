@@ -12,10 +12,10 @@ export class AuditService {
     private userLogModel: Model<UserLogDocument>,
   ) {}
 
-  async createUserLog(createUserLogDto: CreateUserLogDto) {
+  async createUserLog(createUserLogDto: CreateUserLogDto): Promise<UserLog> {
     const { userId, action, after } = createUserLogDto;
 
-    const tasks = {
+    const tasks: Record<USER_ACTION, (userId: string) => Promise<UserLog>> = {
       [USER_ACTION.ATTENDANCE]: async (userId: string) => {
         return this.userLogModel.create({
           userId,
@@ -45,18 +45,31 @@ export class AuditService {
     return tasks[action](userId);
   }
 
-  findAllUserLog() {
-    return this.userLogModel.find();
+  findAllLog(action?: USER_ACTION): Promise<UserLog[]> {
+    return this.userLogModel.find(action ? { action } : {}).lean();
   }
 
-  findOneRecentUserLog(userId: string, action: USER_ACTION) {
+  findAllUserLog(userId: string, action?: USER_ACTION): Promise<UserLog[]> {
+    const query: any = { userId };
+
+    if (action) {
+      query.action = action;
+    }
+
+    return this.userLogModel.find(query).sort({ createdAt: -1 }).lean();
+  }
+
+  findOneRecentUserLog(
+    userId: string,
+    action: USER_ACTION,
+  ): Promise<UserLog | null> {
     return this.userLogModel
       .findOne({ userId, action })
       .sort({ createdAt: -1 })
       .lean();
   }
 
-  removeUserLog(userId: string) {
+  removeUserLog(userId: string): Promise<{ deletedCount?: number }> {
     return this.userLogModel.deleteMany({ userId });
   }
 }
