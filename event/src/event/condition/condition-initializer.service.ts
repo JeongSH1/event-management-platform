@@ -19,6 +19,6 @@ export class ConditionInitializerService implements OnModuleInit {
     if (count > 0) return;
 
     await this.categoryModel.insertMany(ConditionCategorySeedData);
-    Logger.log('Condition categories seeded into MongoDB');
+    Logger.log('[Seed] Condition categories seeded into MongoDB');
   }
 }
