@@ -10,5 +10,6 @@ import { UserLog, UserLogSchema } from './schemas/user-log.schema';
   ],
   controllers: [AuditController],
   providers: [AuditService],
+  exports: [AuditService],
 })
 export class AuditModule {}

@@ -1,5 +1,4 @@
 export enum USER_ACTION {
   ATTENDANCE = 'attendance',
-  RENAME = 'rename',
-  REEMAIL = 'reemail',
+  EDIT_INFO = 'edit_info',
 }

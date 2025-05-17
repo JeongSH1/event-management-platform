@@ -1,4 +1,4 @@
-import { IsEnum, IsObject, IsUUID } from "class-validator";
+import { IsEnum, IsObject, IsUUID } from 'class-validator';
 import { USER_ACTION } from '../constants/user-action';
 
 export class CreateUserLogDto {

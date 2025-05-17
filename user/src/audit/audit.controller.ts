@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, Delete, Query } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { AuditService } from './audit.service';
 import { CreateUserLogDto } from './dto/create-user-log.dto';
 import { USER_ACTION } from './constants/user-action';

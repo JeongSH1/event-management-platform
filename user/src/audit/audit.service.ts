@@ -23,29 +23,15 @@ export class AuditService {
         });
       },
 
-      [USER_ACTION.RENAME]: async (userId: string) => {
+      [USER_ACTION.EDIT_INFO]: async (userId: string) => {
         const lastLog = await this.findOneRecentUserLog(
           userId,
-          USER_ACTION.RENAME,
+          USER_ACTION.EDIT_INFO,
         );
 
         return this.userLogModel.create({
           userId,
-          action: USER_ACTION.RENAME,
-          before: lastLog?.after,
-          after,
-        });
-      },
-
-      [USER_ACTION.REEMAIL]: async (userId: string) => {
-        const lastLog = await this.findOneRecentUserLog(
-          userId,
-          USER_ACTION.REEMAIL,
-        );
-
-        return this.userLogModel.create({
-          userId,
-          action: USER_ACTION.REEMAIL,
+          action: USER_ACTION.EDIT_INFO,
           before: lastLog?.after,
           after,
         });
@@ -60,7 +46,7 @@ export class AuditService {
   }
 
   findAllUserLog() {
-    return `This action returns all audit`;
+    return this.userLogModel.find();
   }
 
   findOneRecentUserLog(userId: string, action: USER_ACTION) {
@@ -71,6 +57,6 @@ export class AuditService {
   }
 
   removeUserLog(userId: string) {
-    return `This action removes a #${userId} audit`;
+    return this.userLogModel.deleteMany({ userId });
   }
 }
