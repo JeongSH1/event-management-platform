@@ -4,7 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import {
   CreateUserBody,
   CreateUserInput,
-} from '../common/types/user-create-types';
+} from '../common/types/user-create-type';
 
 @Injectable()
 export class UserApiService {
