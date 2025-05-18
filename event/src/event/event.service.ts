@@ -64,4 +64,8 @@ export class EventService {
     }
     return event;
   }
+
+  async find(ids: string[]): Promise<Event[]> {
+    return this.eventModel.find({ id: { $in: ids } }).lean();
+  }
 }

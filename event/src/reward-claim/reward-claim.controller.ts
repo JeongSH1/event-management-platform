@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { RewardClaimService } from './reward-claim.service';
 import { CreateRewardClaimDto } from './dto/create-reward-claim.dto';
 import { UpdateRewardClaimDto } from './dto/update-reward-claim.dto';

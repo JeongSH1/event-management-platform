@@ -22,4 +22,6 @@ export class EventRewardService {
 
     return reward;
   }
+
+
 }

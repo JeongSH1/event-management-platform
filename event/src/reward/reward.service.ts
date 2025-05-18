@@ -36,7 +36,7 @@ export class RewardService {
         ) {
           const itemMeta = await this.rewardGameItemModel.findOne({
             name: rewardItem.itemName,
-          });
+          }).lean();
           if (!itemMeta) {
             throw new NotFoundException({
               statusCode: 404,
@@ -62,11 +62,15 @@ export class RewardService {
     });
   }
 
+  async find(ids: string[]): Promise<Reward[]> {
+    return this.rewardModel.find({ id: { $in: ids } }).lean();
+  }
+
   async findAllItemRewardCategory(): Promise<RewardItemCategory[]> {
-    return this.rewardItemCategoryModel.find().sort({ code: 1 });
+    return this.rewardItemCategoryModel.find().sort({ code: 1 }).lean();
   }
 
   async findAllRewardGameItem(): Promise<RewardGameItem[]> {
-    return this.rewardGameItemModel.find().sort({ code: 1 });
+    return this.rewardGameItemModel.find().sort({ code: 1 }).lean();
   }
 }
