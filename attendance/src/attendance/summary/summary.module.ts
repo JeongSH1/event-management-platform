@@ -5,7 +5,6 @@ import {
   AttendanceSummary,
   AttendanceSummarySchema,
 } from './schemas/summary.schema';
-import { SummaryController } from './summary.controller';
 
 @Module({
   imports: [
@@ -13,7 +12,6 @@ import { SummaryController } from './summary.controller';
       { name: AttendanceSummary.name, schema: AttendanceSummarySchema },
     ]),
   ],
-  controllers: [SummaryController],
   providers: [SummaryService],
   exports: [SummaryService],
 })

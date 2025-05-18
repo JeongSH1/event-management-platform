@@ -15,4 +15,14 @@ export class UserApiService {
 
     return data;
   }
+
+  async getRecommendedLogs(userId: string): Promise<any[]> {
+    const baseUrl = process.env.USER_ENDPOINT_URL;
+
+    const { data } = await firstValueFrom(
+      this.httpService.get(`${baseUrl}/audit/log/${userId}?action=recommended`),
+    );
+
+    return data;
+  }
 }

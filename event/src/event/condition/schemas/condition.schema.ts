@@ -9,7 +9,7 @@ export class Condition {
   @Prop({ type: ConditionCategorySchema, required: true })
   category: ConditionCategory;
 
-  @Prop({ required: false })
+  @Prop({ default: 1 })
   threshold?: number;
 
   @Prop({ type: Date })

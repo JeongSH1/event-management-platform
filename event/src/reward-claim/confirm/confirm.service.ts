@@ -10,12 +10,14 @@ import { LogService } from '../log/log.service';
 import { UserApiService } from '../external/user-api.service';
 import { Condition } from '../../event/condition/schemas/condition.schema';
 import { EVENT_STATUS } from '../../event/constants/event-status.constant';
+import { AttendanceApiService } from '../external/attendance-api.service';
 
 @Injectable()
 export class ConfirmService {
   constructor(
     private readonly logService: LogService,
     private readonly userApiService: UserApiService,
+    private readonly attendanceApiService: AttendanceApiService,
   ) {}
 
   private async checkCommonConditionCheck(
@@ -61,6 +63,7 @@ export class ConfirmService {
         });
       }
 
+
       const passed = await checker(userId, condition);
       if (!passed) {
         throw new ForbiddenException({
@@ -86,10 +89,14 @@ export class ConfirmService {
 
   private async checkAttendance(
     userId: string,
-    condition: any,
+    condition: Condition,
   ): Promise<boolean> {
-    const attendanceCount = await this.getAttendanceCount(userId, condition);
-    return attendanceCount >= (condition.threshold ?? 1);
+    const attendanceLogs = await this.attendanceApiService.getAttendanceLogs(
+      userId,
+      condition.startAt,
+      condition.endAt,
+    );
+    return attendanceLogs.length >= (condition.threshold ?? 1);
   }
 
   private async checkNameChange(
@@ -130,18 +137,20 @@ export class ConfirmService {
 
   private async checkHasRecommender(
     userId: string,
-    condition: any,
+    condition: Condition,
   ): Promise<boolean> {
-    // 유저 데이터의 추천인 필드 유무 확인
-    return true;
-  }
+    const { startAt, endAt } = condition;
 
-  // 출석 수 조회는 외부 서비스에서 가져온다고 가정
-  private async getAttendanceCount(
-    userId: string,
-    condition: any,
-  ): Promise<number> {
-    // await attendanceSummaryService.findByUser(userId, condition 기간 기준)
-    return 3; // 예시
+    const userLogs = await this.userApiService.getRecommendedLogs(userId);
+    
+    const filtered = userLogs.filter((log) => {
+      const createdAt = new Date(log.createdAt);
+      return (
+        createdAt >= (startAt ?? new Date('2000-01-01')) &&
+        createdAt <= (endAt ?? new Date('9999-12-31'))
+      );
+    });
+
+    return filtered.length >= condition.threshold;
   }
 }

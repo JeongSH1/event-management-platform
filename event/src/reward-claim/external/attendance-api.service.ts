@@ -6,11 +6,15 @@ import { firstValueFrom } from 'rxjs';
 export class AttendanceApiService {
   constructor(private readonly httpService: HttpService) {}
 
-  async getAttendanceCount(userId: string, startAt?: Date, endAt?: Date): Promise<number> {
+  async getAttendanceLogs(
+    userId: string,
+    startAt: Date,
+    endAt: Date,
+  ): Promise<any[]> {
     const baseUrl = process.env.ATTENDANCE_API_URL;
 
     const { data } = await firstValueFrom(
-      this.httpService.get(`${baseUrl}/api/summary`, {
+      this.httpService.get(`${baseUrl}/attendance`, {
         params: {
           userId,
           startAt: startAt?.toISOString(),
@@ -19,6 +23,6 @@ export class AttendanceApiService {
       }),
     );
 
-    return data.count;
+    return data ?? [];
   }
 }
