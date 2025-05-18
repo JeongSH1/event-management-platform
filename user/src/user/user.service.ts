@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -19,8 +19,36 @@ export class UserService {
     private readonly recommendationService: RecommendationService,
   ) {}
 
+  private async checkDuplicatedFieldsOrThrow({
+    username,
+    email,
+  }: {
+    username?: string;
+    email?: string;
+  }): Promise<void> {
+    if (!username && !email) return;
+
+    if (username) {
+      const exists = await this.userModel.exists({
+        'profile.username': username,
+      });
+      if (exists) {
+        throw new BadRequestException('이미 사용 중인 닉네임입니다.');
+      }
+    }
+
+    if (email) {
+      const exists = await this.userModel.exists({ 'profile.email': email });
+      if (exists) {
+        throw new BadRequestException('이미 사용 중인 이메일입니다.');
+      }
+    }
+  }
+
   async create(createUserDto: CreateUserDto): Promise<UserDocument> {
     const { id, username, email, recommendedUsername } = createUserDto;
+
+    await this.checkDuplicatedFieldsOrThrow({ username, email });
 
     const profile = this.profileService.createProfile(username, email);
     let whoRecommendedNewUser: Recommendation | undefined;
@@ -49,6 +77,12 @@ export class UserService {
         action: USER_ACTION.RECOMMENDED,
       });
     }
+
+    await this.auditService.createUserLog({
+      userId: id,
+      action: USER_ACTION.SIGN_UP,
+      after: { username, email },
+    });
 
     return newUser;
   }

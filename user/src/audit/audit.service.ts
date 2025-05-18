@@ -23,11 +23,26 @@ export class AuditService {
         });
       },
 
+      [USER_ACTION.SIGN_UP]: async (userId: string) => {
+        return this.userLogModel.create({
+          userId,
+          action: USER_ACTION.SIGN_UP,
+          after,
+        });
+      },
+
       [USER_ACTION.EDIT_INFO]: async (userId: string) => {
-        const lastLog = await this.findOneRecentUserLog(
+        let lastLog = await this.findOneRecentUserLog(
           userId,
           USER_ACTION.EDIT_INFO,
         );
+
+        if (!lastLog) {
+          lastLog = await this.findOneRecentUserLog(
+            userId,
+            USER_ACTION.SIGN_UP,
+          );
+        }
 
         return this.userLogModel.create({
           userId,
@@ -49,13 +64,12 @@ export class AuditService {
     return this.userLogModel.find(action ? { action } : {}).lean();
   }
 
-  findAllUserLog(userId: string, action?: USER_ACTION): Promise<UserLog[]> {
+  findUserLog(userId: string, action?: USER_ACTION): Promise<UserLog[]> {
     const query: any = { userId };
 
     if (action) {
       query.action = action;
     }
-
     return this.userLogModel.find(query).sort({ createdAt: -1 }).lean();
   }
 

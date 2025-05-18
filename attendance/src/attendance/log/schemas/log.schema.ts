@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type AttendanceLogDocument = AttendanceLog & Document;
 
-@Schema({ collection: 'attendance_log', timestamps: true })
+@Schema({ collection: 'attendance_logs', timestamps: true })
 export class AttendanceLog {
   @Prop({ required: true })
   userId: string;

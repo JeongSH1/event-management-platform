@@ -46,6 +46,20 @@ export class LogService {
     }
   }
 
+  async findAllByDuration(
+    userId: string,
+    startAt: Date,
+    endAt: Date,
+  ): Promise<AttendanceLog[]> {
+    return this.attendanceLogModel
+      .find({
+        userId,
+        createdAt: { $gte: startAt, $lte: endAt },
+      })
+      .sort({ date: -1 })
+      .lean();
+  }
+
   async findAllForUser(userId: string): Promise<AttendanceLog[]> {
     return this.attendanceLogModel
       .find({ userId })
