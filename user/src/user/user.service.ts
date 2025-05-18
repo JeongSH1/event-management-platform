@@ -19,7 +19,7 @@ export class UserService {
     private readonly recommendationService: RecommendationService,
   ) {}
 
-  private async checkDuplicatedFieldsOrThrow({
+  private async _checkDuplicatedFieldsOrThrow({
     username,
     email,
   }: {
@@ -48,7 +48,7 @@ export class UserService {
   async create(createUserDto: CreateUserDto): Promise<UserDocument> {
     const { id, username, email, recommendedUsername } = createUserDto;
 
-    await this.checkDuplicatedFieldsOrThrow({ username, email });
+    await this._checkDuplicatedFieldsOrThrow({ username, email });
 
     const profile = this.profileService.createProfile(username, email);
     let whoRecommendedNewUser: Recommendation | undefined;
