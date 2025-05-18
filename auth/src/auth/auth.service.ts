@@ -1,44 +1,38 @@
 import {
-  Injectable,
   BadRequestException,
-  UnauthorizedException,
   ForbiddenException,
+  Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import * as bcrypt from 'bcrypt';
-import { SignupDto } from './dto/signup.dto';
 import {
   UserCredential,
   UserCredentialDocument,
 } from './schemas/user-credential.schema';
+import { JwtService } from '@nestjs/jwt';
 import { UserApiService } from '../external/user-api-service';
 import { Role } from './constants/role.constant';
-import { JwtService } from '@nestjs/jwt';
+import { SignupDto } from './dto/signup.dto';
 import { JwtPayload } from '../common/types/jwt-payload.type';
-import { LoginDto } from './dto/login.dto';
 import { JwtToken } from '../common/types/jwt-token-type';
+import { Model } from 'mongoose';
+import { LoginDto } from './dto/login.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(UserCredential.name)
     private readonly userCredentialModel: Model<UserCredentialDocument>,
-
     private readonly jwtService: JwtService,
     private readonly userApiService: UserApiService,
   ) {}
 
   private async _checkDuplicatedFieldsOrThrow(username: string) {
     if (!username) return;
-
-    if (username) {
-      const exists = await this.userCredentialModel.exists({
-        username,
-      });
-      if (exists) {
-        throw new BadRequestException('이미 사용 중인 닉네임입니다.');
-      }
+    const exists = await this.userCredentialModel.exists({ username });
+    if (exists) {
+      throw new BadRequestException('이미 사용 중인 닉네임입니다.');
     }
   }
 
@@ -51,7 +45,7 @@ export class AuthService {
       case process.env.OPERATOR_SECRET_CODE:
         return Role.OPERATOR;
       default:
-        return Role.USER; // 기본 권한
+        return Role.USER;
     }
   }
 
@@ -60,7 +54,6 @@ export class AuthService {
       signupDto;
 
     await this._checkDuplicatedFieldsOrThrow(username);
-
     const hashed = await bcrypt.hash(password, 10);
     const role = await this._getRole(secretCode);
 
@@ -78,22 +71,31 @@ export class AuthService {
     });
   }
 
-  private async _validateUser(
-    username: string,
-    password: string,
-  ): Promise<UserCredentialDocument> {
+  private _generateTokens(payload: JwtPayload): JwtToken {
+    const accessToken = this.jwtService.sign(payload);
+    const refreshToken = this.jwtService.sign(payload, {
+      secret: process.env.REFRESH_TOKEN_SECRET,
+      expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN,
+    });
+
+    return { accessToken, refreshToken };
+  }
+
+  private async _storeRefreshToken(
+    user: UserCredentialDocument,
+    refreshToken: string,
+  ) {
+    user.refreshToken = await bcrypt.hash(refreshToken, 10);
+    await user.save();
+  }
+
+  async login(loginDto: LoginDto): Promise<JwtToken> {
+    const { username, password } = loginDto;
     const user = await this.userCredentialModel.findOne({ username });
     if (!user) throw new UnauthorizedException('Invalid credentials');
 
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) throw new UnauthorizedException('Invalid credentials');
-
-    return user;
-  }
-
-  async login(loginDto: LoginDto): Promise<JwtToken> {
-    const { username, password } = loginDto;
-    const user = await this._validateUser(username, password);
 
     const payload: JwtPayload = {
       sub: user.userId,
@@ -101,51 +103,65 @@ export class AuthService {
       role: user.role,
     };
 
-    const accessToken = this.jwtService.sign(payload);
-    const refreshToken = this.jwtService.sign(payload, {
-      secret: process.env.REFRESH_TOKEN_SECRET,
-      expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN,
-    });
-
-    user.refreshToken = refreshToken;
-    await user.save();
-
-    return { accessToken, refreshToken };
+    const tokens = this._generateTokens(payload);
+    await this._storeRefreshToken(user, tokens.refreshToken);
+    return tokens;
   }
 
-  async refreshTokens(refreshToken: string) {
-    try {
-      const decoded =
-        await this.jwtService.verifyAsync<JwtPayload>(refreshToken);
+  async verifyTokens(jwtToken: JwtToken): Promise<JwtPayload> {
+    const { accessToken, refreshToken } = jwtToken;
 
-      const user = await this.userCredentialModel.findOne({
-        userId: decoded.sub,
+    try {
+      return await this.jwtService.verifyAsync<JwtPayload>(accessToken, {
+        secret: process.env.JWT_SECRET,
       });
-      if (!user || user.refreshToken !== refreshToken) {
-        throw new ForbiddenException('토큰이 유효하지 않습니다.');
+    } catch (accessErr) {
+      if (accessErr.name !== 'TokenExpiredError') {
+        throw new UnauthorizedException('잘못된 액세스 토큰입니다.');
       }
 
-      const newPayload: JwtPayload = {
-        sub: user.userId,
-        username: user.username,
-        role: user.role,
-      };
-
-      const newAccessToken = this.jwtService.sign(newPayload);
-      const newRefreshToken = this.jwtService.sign(newPayload, {
-        secret: process.env.REFRESH_TOKEN_SECRET,
-        expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN,
-      });
-
-      user.refreshToken = newRefreshToken;
-      await user.save();
-
-      return {
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
-      };
-    } catch (err) {
-      throw new UnauthorizedException('토큰이 유효하지 않습니다.');
+      return this._validateAndRefresh(refreshToken);
     }
+  }
+
+  private async _validateAndRefresh(refreshToken: string): Promise<JwtPayload> {
+    if (!refreshToken) {
+      throw new UnauthorizedException('리프레시 토큰이 필요합니다.');
+    }
+
+    let refreshPayload: JwtPayload;
+    try {
+      refreshPayload = await this.jwtService.verifyAsync(refreshToken, {
+        secret: process.env.REFRESH_TOKEN_SECRET,
+      });
+    } catch {
+      throw new ForbiddenException('리프레시 토큰이 유효하지 않습니다.');
+    }
+
+    const user = await this.userCredentialModel.findOne({
+      userId: refreshPayload.sub,
+    });
+    if (!user || !user.refreshToken) {
+      throw new ForbiddenException('사용자 인증 정보가 없습니다.');
+    }
+
+    const isRefreshMatch = await bcrypt.compare(
+      refreshToken,
+      user.refreshToken,
+    );
+    if (!isRefreshMatch) {
+      throw new ForbiddenException('리프레시 토큰이 일치하지 않습니다.');
+    }
+
+    const newPayload: JwtPayload = {
+      sub: user.userId,
+      username: user.username,
+      role: user.role,
+    };
+
+    const tokens = this._generateTokens(newPayload);
+    await this._storeRefreshToken(user, tokens.refreshToken);
+
+    return newPayload;
   }
 }
