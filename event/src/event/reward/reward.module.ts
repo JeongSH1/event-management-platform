@@ -23,5 +23,6 @@ import {
   ],
   controllers: [RewardController],
   providers: [RewardService, RewardInitializerService],
+  exports: [RewardService],
 })
 export class RewardModule {}

@@ -6,9 +6,6 @@ export class RewardItem {
   @Prop({ required: true, enum: REWARD_ITEM_CATEGORY_CODE })
   rewardItemCategoryCode: REWARD_ITEM_CATEGORY_CODE;
 
-  @Prop({ required: true })
-  name: string;
-
   @Prop({ required: true, type: Number, min: 1 })
   quantity: number;
 
@@ -17,6 +14,7 @@ export class RewardItem {
 
   @Prop({ required: false })
   itemName?: string;
+
 }
 
 export const RewardItemSchema = SchemaFactory.createForClass(RewardItem);

@@ -16,7 +16,7 @@ export class ConditionService {
     private readonly conditionCategoryModel: Model<ConditionCategoryDocument>,
   ) {}
 
-  async createObject(dto: CreateConditionDto): Promise<Condition> {
+  async createConditionObject(dto: CreateConditionDto): Promise<Condition> {
     const conditionCategory: ConditionCategory =
       await this.conditionCategoryModel.findOne({
         code: dto.conditionCategoryCode,

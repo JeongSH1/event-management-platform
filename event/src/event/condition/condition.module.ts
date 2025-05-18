@@ -16,5 +16,6 @@ import { ConditionInitializerService } from './condition-initializer.service';
   ],
   controllers: [ConditionController],
   providers: [ConditionService, ConditionInitializerService],
+  exports: [ConditionService]
 })
 export class ConditionModule {}

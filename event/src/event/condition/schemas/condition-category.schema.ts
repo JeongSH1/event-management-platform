@@ -5,7 +5,7 @@ export type ConditionCategoryDocument = ConditionCategory & Document;
 
 @Schema({ collection: 'condition_categories' })
 export class ConditionCategory {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   code: string;
 
   @Prop({ required: true })

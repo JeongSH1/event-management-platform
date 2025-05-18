@@ -9,7 +9,7 @@ export class Reward {
   @Prop()
   description?: string;
 
-  @Prop({ type: [RewardItemSchema], required: true })
+  @Prop({ type: [RewardItemSchema], required: true, default: [] })
   rewardItems: RewardItem[];
 }
 

@@ -1,5 +1,8 @@
-import { Prop, Schema } from '@nestjs/mongoose';
-import { ConditionCategory, ConditionCategorySchema } from './condition-category.schema';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import {
+  ConditionCategory,
+  ConditionCategorySchema,
+} from './condition-category.schema';
 
 @Schema({ _id: false })
 export class Condition {
@@ -14,5 +17,6 @@ export class Condition {
 
   @Prop({ type: Date })
   endAt?: Date;
-
 }
+
+export const ConditionSchema = SchemaFactory.createForClass(Condition);

@@ -5,7 +5,7 @@ import {
   RewardItemCategory,
   RewardItemCategoryDocument,
 } from './schemas/reward-item-category.schema';
-import { CreateRewardDto } from './dto/create-reward.dto';
+import { _RewardItem, CreateRewardDto } from "./dto/create-reward.dto";
 import {
   RewardGameItem,
   RewardGameItemDocument,
@@ -25,25 +25,24 @@ export class RewardService {
 
   async createRewardObject(dto: CreateRewardDto): Promise<Reward> {
     const rewardItems = await Promise.all(
-      dto.rewardItems.map(async (rewardItem) => {
+      dto.rewardItems.map(async (rewardItem: _RewardItem) => {
         if (
           rewardItem.rewardItemCategoryCode ===
           REWARD_ITEM_CATEGORY_CODE.GAME_ITEM
         ) {
           const itemMeta = await this.rewardGameItemModel.findOne({
-            name: rewardItem.name,
+            name: rewardItem.itemName,
           });
           if (!itemMeta) {
             throw new NotFoundException({
               statusCode: 404,
               message: `게임 아이템 정보를 찾을 수 없습니다.`,
-              itemId: itemMeta.id,
+              itemName: rewardItem.itemName,
             });
           }
 
           return {
             ...rewardItem,
-            name: rewardItem.name ?? itemMeta.name,
             itemName: itemMeta.name,
           };
         }

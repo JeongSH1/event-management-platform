@@ -14,9 +14,6 @@ export class _RewardItem {
   @IsEnum(REWARD_ITEM_CATEGORY_CODE)
   rewardItemCategoryCode: REWARD_ITEM_CATEGORY_CODE;
 
-  @IsString()
-  name: string;
-
   @IsNumber()
   @Min(1)
   quantity: number;
