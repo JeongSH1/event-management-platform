@@ -58,7 +58,7 @@ export class EventService {
   }
 
   async findOne(id: string): Promise<Event> {
-    const event = await this.eventModel.findById(id).lean();
+    const event = await this.eventModel.findOne({ id }).lean();
     if (!event) {
       throw new NotFoundException(`이벤트 ID ${id} 를 찾을 수 없습니다.`);
     }

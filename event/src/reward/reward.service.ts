@@ -66,6 +66,10 @@ export class RewardService {
     return this.rewardModel.find({ id: { $in: ids } }).lean();
   }
 
+  async findOne(id: string): Promise<Reward> {
+    return this.rewardModel.findOne({ id }).lean();
+  }
+
   async findAllItemRewardCategory(): Promise<RewardItemCategory[]> {
     return this.rewardItemCategoryModel.find().sort({ code: 1 }).lean();
   }

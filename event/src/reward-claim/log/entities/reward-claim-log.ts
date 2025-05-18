@@ -12,7 +12,7 @@ export class RewardClaimLog {
   @Prop({ required: true })
   eventId: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   rewardId: string;
 
   @Prop({ required: true, enum: CLAIM_RESULT_STATUS })

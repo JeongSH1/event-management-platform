@@ -21,8 +21,8 @@ export class LogService {
   async create(
     userId: string,
     eventId: string,
-    rewardId: string,
     status: CLAIM_RESULT_STATUS,
+    rewardId?: string,
   ): Promise<RewardClaimLog> {
     return await this.rewardClaimLogModel.create({
       userId,
