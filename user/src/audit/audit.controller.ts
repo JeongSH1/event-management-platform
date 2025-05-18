@@ -1,9 +1,17 @@
-import {Controller, Get, Post, Body, Param, Delete, Query} from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { AuditService } from './audit.service';
 import { CreateUserLogDto } from './dto/create-user-log.dto';
-import {USER_ACTION} from "./constants/user-action";
+import { USER_ACTION } from './constants/user-action';
 
-@Controller('audit')
+@Controller('audit/user')
 export class AuditController {
   constructor(private readonly auditService: AuditService) {}
 
@@ -18,7 +26,10 @@ export class AuditController {
   }
 
   @Get('log/:userId')
-  findUserLog(@Param('userId') userId: string, @Query('action') action?: USER_ACTION) {
+  findUserLog(
+    @Param('userId') userId: string,
+    @Query('action') action?: USER_ACTION,
+  ) {
     return this.auditService.findUserLog(userId, action);
   }
 
