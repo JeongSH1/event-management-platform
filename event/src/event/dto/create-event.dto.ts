@@ -9,7 +9,6 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateConditionDto } from '../condition/dto/create-condition.dto';
-import { CreateRewardDto } from '../reward/dto/create-reward.dto';
 import { EVENT_STATUS } from '../constants/event-status.constant';
 
 export class CreateEventDto {
@@ -36,8 +35,4 @@ export class CreateEventDto {
   @ValidateNested({ each: true })
   @Type(() => CreateConditionDto)
   conditions: CreateConditionDto[];
-
-  @ValidateNested()
-  @Type(() => CreateRewardDto)
-  reward: CreateRewardDto;
 }

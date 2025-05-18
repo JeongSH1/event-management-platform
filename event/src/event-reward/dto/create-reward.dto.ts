@@ -4,10 +4,11 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUUID,
   Min,
   ValidateNested,
 } from 'class-validator';
-import { REWARD_ITEM_CATEGORY_CODE } from '../constants/reward-item-category.constant';
+import { REWARD_ITEM_CATEGORY_CODE } from '../../reward/constants/reward-item-category.constant';
 import { Type } from 'class-transformer';
 
 export class _RewardItem {
@@ -24,6 +25,9 @@ export class _RewardItem {
 }
 
 export class CreateRewardDto {
+  @IsString()
+  eventId: string;
+
   @IsOptional()
   @IsString()
   description?: string;

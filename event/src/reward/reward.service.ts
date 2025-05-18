@@ -5,12 +5,12 @@ import {
   RewardItemCategory,
   RewardItemCategoryDocument,
 } from './schemas/reward-item-category.schema';
-import { _RewardItem, CreateRewardDto } from "./dto/create-reward.dto";
+import { _RewardItem, CreateRewardDto } from '../event-reward/dto/create-reward.dto';
 import {
   RewardGameItem,
   RewardGameItemDocument,
 } from './schemas/reward-game-item.schema';
-import { Reward } from './schemas/reward.schema';
+import { Reward, RewardDocument } from './schemas/reward.schema';
 import { REWARD_ITEM_CATEGORY_CODE } from './constants/reward-item-category.constant';
 
 @Injectable()
@@ -21,9 +21,13 @@ export class RewardService {
 
     @InjectModel(RewardGameItem.name)
     private readonly rewardGameItemModel: Model<RewardGameItemDocument>,
+
+    @InjectModel(Reward.name)
+    private readonly rewardModel: Model<RewardDocument>,
   ) {}
 
-  async createRewardObject(dto: CreateRewardDto): Promise<Reward> {
+  async createReward(dto: CreateRewardDto): Promise<Reward> {
+
     const rewardItems = await Promise.all(
       dto.rewardItems.map(async (rewardItem: _RewardItem) => {
         if (
@@ -51,10 +55,11 @@ export class RewardService {
       }),
     );
 
-    return {
+    return await this.rewardModel.create({
+      eventId: dto.eventId,
       description: dto.description,
       rewardItems,
-    };
+    });
   }
 
   async findAllItemRewardCategory(): Promise<RewardItemCategory[]> {

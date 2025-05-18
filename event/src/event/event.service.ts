@@ -4,7 +4,6 @@ import { Event, EventDocument } from './schemas/event.schema';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { ConditionService } from './condition/condition.service';
-import { RewardService } from './reward/reward.service';
 
 @Injectable()
 export class EventService {
@@ -13,11 +12,10 @@ export class EventService {
     private readonly eventModel: Model<EventDocument>,
 
     private readonly conditionService: ConditionService,
-    private readonly rewardService: RewardService,
   ) {}
 
   async create(createEventDto: CreateEventDto): Promise<Event> {
-    const { title, description, startAt, endAt, status, conditions, reward } =
+    const { title, description, startAt, endAt, status, conditions } =
       createEventDto;
 
     const conditionObjects = await Promise.all(
@@ -26,8 +24,6 @@ export class EventService {
       ),
     );
 
-    const rewardObject = await this.rewardService.createRewardObject(reward);
-
     return await this.eventModel.create({
       title,
       description,
@@ -35,8 +31,26 @@ export class EventService {
       endAt,
       status,
       conditions: conditionObjects,
-      reward: rewardObject,
     });
+  }
+
+  async checkEventExists(eventId: string): Promise<void> {
+    const exists = await this.eventModel.exists({ id: eventId });
+
+    if (!exists) {
+      throw new NotFoundException(`이벤트를 찾을 수 없습니다: ${eventId}`);
+    }
+  }
+
+  async attachReward(eventId: string, rewardId: string): Promise<void> {
+    const result = await this.eventModel.updateOne(
+      { id: eventId },
+      { $set: { rewardId } },
+    );
+
+    if (result.matchedCount === 0) {
+      throw new NotFoundException(`이벤트를 찾을 수 없습니다: ${eventId}`);
+    }
   }
 
   async findAll(): Promise<Event[]> {

@@ -11,6 +11,7 @@ import {
   RewardGameItem,
   RewardGameItemSchema,
 } from './schemas/reward-game-item.schema';
+import { Reward, RewardSchema } from './schemas/reward.schema';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import {
     MongooseModule.forFeature([
       { name: RewardGameItem.name, schema: RewardGameItemSchema },
     ]),
+    MongooseModule.forFeature([{ name: Reward.name, schema: RewardSchema }]),
   ],
   controllers: [RewardController],
   providers: [RewardService, RewardInitializerService],

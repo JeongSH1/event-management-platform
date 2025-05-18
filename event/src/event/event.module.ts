@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { EventService } from './event.service';
 import { EventController } from './event.controller';
 import { ConditionModule } from './condition/condition.module';
-import { RewardModule } from './reward/reward.module';
+import { RewardModule } from '../reward/reward.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EventSchema } from './schemas/event.schema';
 
@@ -14,5 +14,6 @@ import { EventSchema } from './schemas/event.schema';
   ],
   controllers: [EventController],
   providers: [EventService],
+  exports: [EventService],
 })
 export class EventModule {}
