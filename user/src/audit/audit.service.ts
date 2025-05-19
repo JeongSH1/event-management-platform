@@ -4,6 +4,8 @@ import { USER_ACTION } from './constants/user-action';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserLog, UserLogDocument } from './schemas/user-log.schema';
+import { toAuditUserLogResponse } from '../util/mapper.util';
+import { AuditUserLogResponse } from './types/user-log-response.type';
 
 @Injectable()
 export class AuditService {
@@ -60,17 +62,27 @@ export class AuditService {
     return tasks[action](userId);
   }
 
-  findAllLog(action?: USER_ACTION): Promise<UserLog[]> {
-    return this.userLogModel.find(action ? { action } : {}).lean();
+  async findAllLog(action?: USER_ACTION): Promise<AuditUserLogResponse[]> {
+    const userLogs = await this.userLogModel
+      .find(action ? { action } : {})
+      .lean();
+    return userLogs.map(toAuditUserLogResponse);
   }
 
-  findUserLog(userId: string, action?: USER_ACTION): Promise<UserLog[]> {
+  async findUserLog(
+    userId: string,
+    action?: USER_ACTION,
+  ): Promise<AuditUserLogResponse[]> {
     const query: any = { userId };
 
     if (action) {
       query.action = action;
     }
-    return this.userLogModel.find(query).sort({ createdAt: -1 }).lean();
+    const userLogs = await this.userLogModel
+      .find(query)
+      .sort({ createdAt: -1 })
+      .lean();
+    return userLogs.map(toAuditUserLogResponse);
   }
 
   findOneRecentUserLog(

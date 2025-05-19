@@ -12,10 +12,19 @@ export class UserProxyController {
   constructor(private readonly userApiService: UserApiService) {}
 
   @UseGuards(AuthGuard('jwt'))
-  @Patch()
+  @Patch('my')
   async editInfo(@Req() req: Request) {
-    console.log('gi');
-    return await this.userApiService.editInfo(
+    return await this.userApiService.proxyEditInfo(
+      req.body,
+      sanitizeHeaders(req.headers, req.user),
+    );
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('audit/log/my')
+  async findEditInfoLog(@Req() req: Request) {
+    return await this.userApiService.proxyFindEditInfoLog(
+      req.query,
       req.body,
       sanitizeHeaders(req.headers, req.user),
     );

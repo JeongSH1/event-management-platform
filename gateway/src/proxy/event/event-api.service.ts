@@ -66,7 +66,7 @@ export class EventApiService {
     body: any,
     headers: any,
   ): Promise<any> {
-    const eventId = params.eventId;
+    const eventId = params.eventId ?? '';
 
     return this.httpUtilService.request({
       method: 'PATCH',

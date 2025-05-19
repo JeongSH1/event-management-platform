@@ -34,17 +34,17 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(id, updateUserDto);
-  }
-
-  @Patch()
+  @Patch('my')
   updateMy(
     @Headers('x-user-id') userId: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
     return this.userService.update(userId, updateUserDto);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
