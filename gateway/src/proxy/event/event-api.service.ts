@@ -31,4 +31,13 @@ export class EventApiService {
       headers,
     });
   }
+
+  async proxyGameItemCategory(body: any, headers: any): Promise<any> {
+    return this.httpUtilService.request({
+      method: 'GET',
+      url: `${process.env.EVENT_SERVICE_ENDPOINT}/event/reward/game-item`,
+      data: body,
+      headers,
+    });
+  }
 }

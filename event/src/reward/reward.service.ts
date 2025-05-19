@@ -15,8 +15,12 @@ import {
 } from './schemas/reward-game-item.schema';
 import { Reward, RewardDocument } from './schemas/reward.schema';
 import { REWARD_ITEM_CATEGORY_CODE } from './constants/reward-item-category.constant';
-import { toRewardItemCategoryResponse } from '../util/mapper.util';
-import {RewardItemCategoryResponse} from "./types/reward-item-category.response";
+import {
+  toRewardGameItemResponse,
+  toRewardItemCategoryResponse,
+} from '../util/mapper.util';
+import { RewardItemCategoryResponse } from './types/reward-item-category.response';
+import { RewardGameItemResponse } from './types/reward-game-item.response';
 
 @Injectable()
 export class RewardService {
@@ -79,12 +83,16 @@ export class RewardService {
   async findAllItemRewardCategory(): Promise<RewardItemCategoryResponse[]> {
     const rewardItemCategory = await this.rewardItemCategoryModel
       .find()
-      .sort({ code: 1 })
+      .sort({ name: 1 })
       .lean();
     return rewardItemCategory.map(toRewardItemCategoryResponse);
   }
 
-  async findAllRewardGameItem(): Promise<RewardGameItem[]> {
-    return this.rewardGameItemModel.find().sort({ code: 1 }).lean();
+  async findAllRewardGameItem(): Promise<RewardGameItemResponse[]> {
+    const rewardGameItem = await this.rewardGameItemModel
+      .find()
+      .sort({ name: 1 })
+      .lean();
+    return rewardGameItem.map(toRewardGameItemResponse);
   }
 }

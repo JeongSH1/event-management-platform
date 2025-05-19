@@ -40,4 +40,14 @@ export class EventProxyController {
       sanitizeHeaders(req.headers),
     );
   }
+
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.OPERATOR, Role.ADMIN)
+  @Get('reward/game-item')
+  async gameItemCategory(@Req() req: Request) {
+    return await this.eventApiService.proxyGameItemCategory(
+      req.body,
+      sanitizeHeaders(req.headers),
+    );
+  }
 }

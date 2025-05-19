@@ -2,6 +2,9 @@ import { Event } from '../event/schemas/event.schema';
 import { EventDetailResponse } from '../event/types/event-detail-resposne.type';
 import { RewardItemCategory } from '../reward/schemas/reward-item-category.schema';
 import { RewardItemCategoryResponse } from '../reward/types/reward-item-category.response';
+import { RewardGameItem } from '../reward/schemas/reward-game-item.schema';
+import { raceWith } from 'rxjs';
+import {RewardGameItemResponse} from "../reward/types/reward-game-item.response";
 
 export function toEventDetailResponse(event: Event): EventDetailResponse {
   return {
@@ -32,5 +35,14 @@ export function toRewardItemCategoryResponse(
     code: rewardItemCategory.code,
     name: rewardItemCategory.name,
     description: rewardItemCategory?.description,
+  };
+}
+
+export function toRewardGameItemResponse(
+  rewardGameItem: RewardGameItem,
+): RewardGameItemResponse {
+  return {
+    itemId: rewardGameItem.id,
+    itemName: rewardGameItem.name,
   };
 }
