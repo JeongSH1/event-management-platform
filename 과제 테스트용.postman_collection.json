@@ -1,0 +1,908 @@
+{
+	"info": {
+		"_postman_id": "576df265-52c3-4703-94ce-c31ec20e93b0",
+		"name": "과제 테스트용",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42843990",
+		"_collection_link": "https://dark-robot-663425.postman.co/workspace/Team-Workspace~5cabe64e-5373-44cf-8b3d-43f36790c485/collection/42843990-576df265-52c3-4703-94ce-c31ec20e93b0?action=share&source=collection_link&creator=42843990"
+	},
+	"item": [
+		{
+			"name": "ADMIN",
+			"item": [
+				{
+					"name": "\b회원가입",
+					"item": [
+						{
+							"name": "ADMIN 회원가입",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"ADMIN\",\n    \"email\": \"admin@nexon.com\",\n    \"password\": \"admin123\",\n    \"secretCode\": \"maple-admin\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/signup",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AUDITOR 회원가입",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"AUDITOR\",\n    \"email\": \"auditor@nexon.com\",\n    \"password\": \"auditor123\",\n    \"secretCode\": \"maple-auditor\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/signup",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "OPERATOR 회원가입",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"OPERATOR\",\n    \"email\": \"operator@nexon.com\",\n    \"password\": \"operator123\",\n    \"secretCode\": \"maple-operator\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/signup",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "\b로그인",
+					"item": [
+						{
+							"name": "ADMIN 로그인",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"ADMIN\",\n    \"password\": \"admin123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AUDITOR 로그인",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"AUDITOR\",\n    \"password\": \"auditor123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/signup",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "OPERATOR 로그인",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"OPERATOR\",\n    \"password\": \"operator123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/signup",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "JWT 갱신",
+					"item": [
+						{
+							"name": "JWT 갱신",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "x-refresh-token",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/auth/refresh",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "\b이벤트 생성",
+					"item": [
+						{
+							"name": "\b이벤트 완료 조건 카테고리 조회",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-refresh-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfMzExMDI1NGYtYWY5Ny00YTE1LTkyYjYtNjNhYmE1YzJjZTAxIiwidXNlcm5hbWUiOiJBRE1JTiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzYyMTk3NywiZXhwIjoxNzQ3NzA4Mzc3fQ.kkpiyaktRcsQqk64AV7gGs1rKIKzogDqMTi6xJsMJz4",
+										"type": "text"
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/event/condition/category",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"event",
+										"condition",
+										"category"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "이벤트 생성",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"친구 초대 이벤트\",\n  \"description\": \"친구를 초대하면 보상을 드립니다.\",\n  \"startAt\": \"2025-06-01T00:00:00.000Z\",\n  \"endAt\": \"2025-06-30T23:59:59.999Z\",\n  \"status\": \"active\",\n  \"conditions\": [\n    {\n      \"conditionCategoryCode\": \"has_recommender\",\n      \"threshold\": 1,\n      \"startAt\": \"2025-06-01T00:00:00.000Z\",\n      \"endAt\": \"2025-06-30T23:59:59.999Z\"\n    },\n    {\n      \"conditionCategoryCode\": \"check_attendance\",\n      \"threshold\": 3,\n      \"startAt\": \"2025-06-01T00:00:00.000Z\",\n      \"endAt\": \"2025-06-30T23:59:59.999Z\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/event",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"event"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "이벤트 조회",
+					"item": [
+						{
+							"name": "모든 이벤트 조회",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/event",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"event"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "활성/비활성별 이벤트 조회",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/event?status=active",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"event"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "active"
+										},
+										{
+											"key": "status",
+											"value": "inactive",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "보상 생성",
+					"item": [
+						{
+							"name": "보상 아이템 카테고리 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfMzExMDI1NGYtYWY5Ny00YTE1LTkyYjYtNjNhYmE1YzJjZTAxIiwidXNlcm5hbWUiOiJBRE1JTiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzYzMDkwNCwiZXhwIjoxNzQ3NjM4MTA0fQ.FGjNkth0io7wh1JUGVHIkIB_lUMiNpkPEXdJJz5Y2kE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/event/reward/item-category",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"event",
+										"reward",
+										"item-category"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "보상 가능한 게임 아이템 목록 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfMzExMDI1NGYtYWY5Ny00YTE1LTkyYjYtNjNhYmE1YzJjZTAxIiwidXNlcm5hbWUiOiJBRE1JTiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzYzMDkwNCwiZXhwIjoxNzQ3NjM4MTA0fQ.FGjNkth0io7wh1JUGVHIkIB_lUMiNpkPEXdJJz5Y2kE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/event/reward/game-item",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"event",
+										"reward",
+										"game-item"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "보상 생성",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfMzExMDI1NGYtYWY5Ny00YTE1LTkyYjYtNjNhYmE1YzJjZTAxIiwidXNlcm5hbWUiOiJBRE1JTiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzYzMDkwNCwiZXhwIjoxNzQ3NjM4MTA0fQ.FGjNkth0io7wh1JUGVHIkIB_lUMiNpkPEXdJJz5Y2kE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"eventId\": \"evt_7e9a51c1-93b3-4a62-8965-0e2fdf351300\",\n  \"description\": \"친구 초대 보상 패키지\",\n  \"rewardItems\": [\n    {\n      \"rewardItemCategoryCode\": \"game_item\",\n      \"quantity\": 1,\n      \"itemName\": \"익스트림 성장의 비약\"\n    },\n    {\n      \"rewardItemCategoryCode\": \"maple_point\",\n      \"quantity\": 1000\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/event/reward",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"event",
+										"reward"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "이벤트 활성/비활성",
+					"item": [
+						{
+							"name": "이벤트 활성/비활성화",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfMzExMDI1NGYtYWY5Ny00YTE1LTkyYjYtNjNhYmE1YzJjZTAxIiwidXNlcm5hbWUiOiJBRE1JTiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzYzMDkwNCwiZXhwIjoxNzQ3NjM4MTA0fQ.FGjNkth0io7wh1JUGVHIkIB_lUMiNpkPEXdJJz5Y2kE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/event/:eventId?status=inactive",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"event",
+										":eventId"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "inactive"
+										},
+										{
+											"key": "status",
+											"value": "active",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "eventId",
+											"value": "evt_7e9a51c1-93b3-4a62-8965-0e2fdf351300"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "유저 보상 요청 조회",
+					"item": [
+						{
+							"name": "전체 보상 요청 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfMzExMDI1NGYtYWY5Ny00YTE1LTkyYjYtNjNhYmE1YzJjZTAxIiwidXNlcm5hbWUiOiJBRE1JTiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzY0MjI4NiwiZXhwIjoxNzQ3NjQ5NDg2fQ.fumv2-5RYDj4Fc2hpDgaJq9nJt9fbED35Ng59E8uZiE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/event/reward-claim/log",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"event",
+										"reward-claim",
+										"log"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "이벤트별 보상 요청 조회",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/reward-claim-log?eventId=",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"reward-claim-log"
+									],
+									"query": [
+										{
+											"key": "eventId",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "이벤트 상태별 보상 요청 조회",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/reward-claim-log?status=active",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"reward-claim-log"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "active"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "USER",
+			"item": [
+				{
+					"name": "회원가입",
+					"item": [
+						{
+							"name": "\bUSER 회원가입",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"USER\",\n    \"email\": \"user@nexon.com\",\n    \"password\": \"user123\",\n    \"secretCode\": \"maple-user\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/signup",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "로그인",
+					"item": [
+						{
+							"name": "User 로그인",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"USER\",\n    \"password\": \"user123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/auth/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "JWT 갱신",
+					"item": [
+						{
+							"name": "JWT 갱신",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfODc5NWYzMDAtZGI2Yy00MGYxLThlYzYtOTFkMTg0ZmE4MWQxIiwidXNlcm5hbWUiOiJVU0VSIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NDc2MTkxNjgsImV4cCI6MTc0NzYyNjM2OH0.j1CpqYnZmxQpa7dLzwz3aG9A9Ra9b4Wehu0Q7-m_4p4",
+										"type": "text"
+									},
+									{
+										"key": "x-refresh-token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfODc5NWYzMDAtZGI2Yy00MGYxLThlYzYtOTFkMTg0ZmE4MWQxIiwidXNlcm5hbWUiOiJVU0VSIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NDc2MTkxNjgsImV4cCI6MTc0NzcwNTU2OH0.KmcaDGJQFunPj9OUJcQOeWBItQD9mY-yHbVjSpLgjTg",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/auth/refresh",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"auth",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "보상 요청",
+					"item": [
+						{
+							"name": "보상 요청",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfODc5NWYzMDAtZGI2Yy00MGYxLThlYzYtOTFkMTg0ZmE4MWQxIiwidXNlcm5hbWUiOiJVU0VSIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NDc2NDIzNzMsImV4cCI6MTc0NzY0OTU3M30.FPyAD3g008aJIs5tdeD9n8IRXiqjWpY7RTUBGtYWmFc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/event/reward-claim/:eventId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"event",
+										"reward-claim",
+										":eventId"
+									],
+									"variable": [
+										{
+											"key": "eventId",
+											"value": "evt_83a7a6c4-bb99-4bd4-83cb-e1cd80275124"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "자신의 보상 요청 내역 조회",
+					"item": [
+						{
+							"name": "보상 요청 내역 조회",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}event/reward-claim/log/my",
+									"host": [
+										"{{base_url}}event"
+									],
+									"path": [
+										"reward-claim",
+										"log",
+										"my"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "\b개인 정보 변경 (이벤트 조건)",
+					"item": [
+						{
+							"name": "정보 \b변경",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"new_username\",\n  \"email\": \"new_email@example.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/user",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "변경 내역 조회",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/audit/user/my",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"audit",
+										"user",
+										"my"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "출석 체크 (이벤트 조건)",
+					"item": [
+						{
+							"name": "출석 체크",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/attendance",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"attendance"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "출석 체크 정보 조회",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/attendance",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"attendance"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "추천인 수 (이벤트 조건)",
+					"item": [
+						{
+							"name": "추천인 조회",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"new_username\",\n  \"email\": \"new_email@example.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/audit/user/log?action=recommended",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"audit",
+										"user",
+										"log"
+									],
+									"query": [
+										{
+											"key": "action",
+											"value": "recommended"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:1206",
+			"type": "string"
+		}
+	]
+}

@@ -1,5 +1,3 @@
-version: '3.8'
-
 networks:
   event-platform-net:
     driver: bridge
@@ -22,8 +20,6 @@ services:
       context: ./user
       dockerfile: Dockerfile
     container_name: user-service
-    ports:
-      - '3000:3000'
     environment:
       - IS_DOCKER=true
       - PORT=3000
@@ -38,12 +34,10 @@ services:
       context: ./attendance
       dockerfile: Dockerfile
     container_name: attendance-service
-    ports:
-      - '3001:3001'
     environment:
       - IS_DOCKER=true
       - PORT=3001
-      - ATTENDANCE_INTERVAL=100 # 초 단위
+      - ATTENDANCE_INTERVAL=100
       - MONGO_URI=mongodb://root:1234@mongodb:27017/attendance-db?authSource=admin
     depends_on:
       - mongo
@@ -55,13 +49,10 @@ services:
       context: ./event
       dockerfile: Dockerfile
     container_name: event-service
-    ports:
-      - '3002:3002'
     environment:
       - IS_DOCKER=true
       - PORT=3002
       - MONGO_URI=mongodb://root:1234@mongodb:27017/event-db?authSource=admin
-
       - USER_ENDPOINT_URL=http://user-service:3000
       - ATTENDANCE_ENDPOINT_URL=http://attendance-service:3001
     depends_on:
@@ -76,20 +67,15 @@ services:
       context: ./auth
       dockerfile: Dockerfile
     container_name: auth-service
-    ports:
-      - '3003:3003'
     environment:
       - IS_DOCKER=true
       - PORT=3003
       - MONGO_URI=mongodb://root:1234@mongodb:27017/auth-db?authSource=admin
-
       - USER_ENDPOINT_URL=http://user-service:3000
-
       - ADMIN_SECRET_CODE=maple-admin
       - AUDITOR_SECRET_CODE=maple-auditor
       - OPERATOR_SECRET_CODE=maple-operator
       - USER_SECRET_CORE=maple-user
-
       - JWT_SECRET=21B9311B6E738BE62C39A4D3CD785
       - JWT_EXPIRES_IN=7200s
       - REFRESH_TOKEN_SECRET=2924D23916AB185E1D3645D5D2F98
@@ -111,18 +97,14 @@ services:
       - IS_DOCKER=true
       - PORT=1206
       - MONGO_URI=mongodb://root:1234@mongodb:27017/gateway-db?authSource=admin
-
       - USER_SERVICE_ENDPOINT=http://user-service:3000
       - ATTENDANCE_SERVICE_ENDPOINT=http://attendance-service:3001
       - EVENT_SERVICE_ENDPOINT=http://event-service:3002
       - AUTH_SERVICE_ENDPOINT=http://auth-service:3003
-
       - JWT_SECRET=21B9311B6E738BE62C39A4D3CD785
       - JWT_EXPIRES_IN=7200s
-
       - REFRESH_TOKEN_SECRET=2924D23916AB185E1D3645D5D2F98
       - REFRESH_TOKEN_EXPIRES_IN=1d
-
     depends_on:
       - mongo
       - user
