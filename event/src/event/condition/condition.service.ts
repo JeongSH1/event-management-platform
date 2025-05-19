@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateConditionDto } from './dto/create-condition.dto';
-import { UpdateConditionDto } from './dto/update-condition.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import {
   ConditionCategory,
@@ -8,6 +7,7 @@ import {
 } from './schemas/condition-category.schema';
 import { Model } from 'mongoose';
 import { Condition } from './schemas/condition.schema';
+import { ConditionCategoryResponse } from './types/condition-category.type';
 
 @Injectable()
 export class ConditionService {
@@ -33,7 +33,10 @@ export class ConditionService {
     };
   }
 
-  async findAllConditionCategory(): Promise<ConditionCategory[]> {
-    return this.conditionCategoryModel.find().sort({ code: 1 });
+  async findAllConditionCategory(): Promise<ConditionCategoryResponse[]> {
+    return this.conditionCategoryModel
+      .find({}, { code: 1, description: 1, _id: 0 }) // 필드 projection
+      .sort({ code: 1 })
+      .lean();
   }
 }

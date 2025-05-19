@@ -8,7 +8,16 @@ export class EventApiService {
   async proxyConditionCategory(body: any, headers: any): Promise<any> {
     return this.httpUtilService.request({
       method: 'GET',
-      url: `${process.env.EVENT_SERVICE_ENDPOINT}/condition/category`,
+      url: `${process.env.EVENT_SERVICE_ENDPOINT}/event/condition/category`,
+      data: body,
+      headers,
+    });
+  }
+
+  async proxyCreateEvent(body: any, headers: any): Promise<any> {
+    return this.httpUtilService.request({
+      method: 'POST',
+      url: `${process.env.EVENT_SERVICE_ENDPOINT}/event`,
       data: body,
       headers,
     });

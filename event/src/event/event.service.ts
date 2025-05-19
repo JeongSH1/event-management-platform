@@ -4,6 +4,8 @@ import { Event, EventDocument } from './schemas/event.schema';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { ConditionService } from './condition/condition.service';
+import { EventDetailResponse } from './types/event-detail-resposne.type';
+import { toEventDetailResponse } from './utils/mapper.util';
 
 @Injectable()
 export class EventService {
@@ -14,7 +16,7 @@ export class EventService {
     private readonly conditionService: ConditionService,
   ) {}
 
-  async create(createEventDto: CreateEventDto): Promise<Event> {
+  async create(createEventDto: CreateEventDto): Promise<EventDetailResponse> {
     const { title, description, startAt, endAt, status, conditions } =
       createEventDto;
 
@@ -24,7 +26,7 @@ export class EventService {
       ),
     );
 
-    return await this.eventModel.create({
+    const created: Event = await this.eventModel.create({
       title,
       description,
       startAt,
@@ -32,6 +34,8 @@ export class EventService {
       status,
       conditions: conditionObjects,
     });
+
+    return toEventDetailResponse(created);
   }
 
   async checkEventExists(eventId: string): Promise<void> {
