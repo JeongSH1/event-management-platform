@@ -8,6 +8,7 @@ import {
   Delete,
   HttpStatus,
   HttpCode,
+  Headers,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -36,6 +37,14 @@ export class UserController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
+  }
+
+  @Patch()
+  updateMy(
+    @Headers('x-user-id') userId: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.userService.update(userId, updateUserDto);
   }
 
   @Delete(':id')
