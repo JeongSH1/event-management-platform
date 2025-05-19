@@ -40,4 +40,13 @@ export class EventApiService {
       headers,
     });
   }
+
+  async proxyCreateReward(body: any, headers: any): Promise<any> {
+    return this.httpUtilService.request({
+      method: 'POST',
+      url: `${process.env.EVENT_SERVICE_ENDPOINT}/event/reward`,
+      data: body,
+      headers,
+    });
+  }
 }

@@ -14,7 +14,6 @@ export class RewardItem {
 
   @Prop({ required: false })
   itemName?: string;
-
 }
 
 export const RewardItemSchema = SchemaFactory.createForClass(RewardItem);

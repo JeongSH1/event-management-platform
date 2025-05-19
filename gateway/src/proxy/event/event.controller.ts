@@ -50,4 +50,14 @@ export class EventProxyController {
       sanitizeHeaders(req.headers),
     );
   }
+
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.OPERATOR, Role.ADMIN)
+  @Post('reward')
+  async createReward(@Req() req: Request) {
+    return await this.eventApiService.proxyCreateReward(
+      req.body,
+      sanitizeHeaders(req.headers),
+    );
+  }
 }

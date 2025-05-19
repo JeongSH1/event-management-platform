@@ -1,9 +1,12 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { EventService } from '../event/event.service';
 import { RewardService } from '../reward/reward.service';
 import { CreateRewardDto } from './dto/create-reward.dto';
 import { Reward } from '../reward/schemas/reward.schema';
 import { Event } from '../event/schemas/event.schema';
+import { CreateRewardResponse } from './types/create-reward-response.type';
+import {toCreateRewardResponse} from "../util/mapper.util";
+import {raceWith} from "rxjs";
 
 @Injectable()
 export class EventRewardService {
@@ -12,7 +15,9 @@ export class EventRewardService {
     private readonly rewardService: RewardService,
   ) {}
 
-  async makeRewardAttachToEvent(rewardDto: CreateRewardDto): Promise<Reward> {
+  async makeRewardAttachToEvent(
+    rewardDto: CreateRewardDto,
+  ): Promise<CreateRewardResponse> {
     const { eventId } = rewardDto;
 
     await this.eventService.checkEventExists(eventId);
@@ -21,7 +26,7 @@ export class EventRewardService {
 
     await this.eventService.attachReward(eventId, reward.id);
 
-    return reward;
+    return toCreateRewardResponse(reward);
   }
 
   async getEventWithReward(eventId: string): Promise<{
@@ -39,7 +44,9 @@ export class EventRewardService {
     if (event.rewardId) {
       reward = await this.rewardService.findOne(event.rewardId);
       if (!reward) {
-        throw new NotFoundException(`보상을 찾을 수 없습니다: ${event.rewardId}`);
+        throw new NotFoundException(
+          `보상을 찾을 수 없습니다: ${event.rewardId}`,
+        );
       }
     }
 

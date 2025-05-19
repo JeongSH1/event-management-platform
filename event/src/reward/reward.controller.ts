@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { RewardService } from './reward.service';
 import { RewardItemCategoryResponse } from './types/reward-item-category.response';
-import {RewardGameItemResponse} from "./types/reward-game-item.response";
+import { RewardGameItemResponse } from './types/reward-game-item.response';
 
 @Controller('event/reward')
 export class RewardController {
