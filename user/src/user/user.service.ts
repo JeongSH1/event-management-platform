@@ -88,7 +88,7 @@ export class UserService {
   }
 
   findAll(): Promise<UserDocument[]> {
-    return this.userModel.find();
+    return this.userModel.find().select('-_id -__v').lean();
   }
 
   findOne(id: string): Promise<UserDocument> {

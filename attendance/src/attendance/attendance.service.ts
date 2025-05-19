@@ -20,6 +20,10 @@ export class AttendanceService {
     await this.summaryService.increment(userId);
   }
 
+  async findAll() {
+    return this.logService.findAll();
+  }
+
   async findUserAttendanceByDuration(
     userId: string,
     findAttendanceDto: FindAttendanceDto,

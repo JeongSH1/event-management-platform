@@ -60,10 +60,11 @@ export class LogService {
       .lean();
   }
 
-  async findAllForUser(userId: string): Promise<AttendanceLog[]> {
+  async findAll(): Promise<AttendanceLog[]> {
     return this.attendanceLogModel
-      .find({ userId })
+      .find()
       .sort({ createdAt: -1 })
+      .select('-_id -__v')
       .lean();
   }
 

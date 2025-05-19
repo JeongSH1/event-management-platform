@@ -1,7 +1,7 @@
 import { Controller, Post, Get, Param, Query, Headers } from '@nestjs/common';
 import { AttendanceService } from './attendance.service';
 import { FindAttendanceDto } from './dto/find-attendance.dto';
-import {AttendanceLogResponse} from "./types/attendance-log-response.type";
+import { AttendanceLogResponse } from './types/attendance-log-response.type';
 
 @Controller('attendance')
 export class AttendanceController {
@@ -13,6 +13,11 @@ export class AttendanceController {
   }
 
   @Get()
+  findAllAttendance() {
+    return this.attendanceService.findAll();
+  }
+
+  @Get('my')
   findMyAttendance(
     @Headers('x-user-id') userId: string,
     @Query() dto: FindAttendanceDto,

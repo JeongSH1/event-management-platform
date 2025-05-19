@@ -14,6 +14,16 @@ export class AttendanceApiService {
       headers,
     });
   }
+
+  async proxyFindAllAttendanceLog(body: any, headers: any): Promise<any> {
+    return this.httpUtilService.request({
+      method: 'GET',
+      url: `${process.env.ATTENDANCE_SERVICE_ENDPOINT}/attendance`,
+      data: body,
+      headers,
+    });
+  }
+
   async proxyFindMyAttendanceLog(
     query: any,
     body: any,
@@ -21,7 +31,7 @@ export class AttendanceApiService {
   ): Promise<any> {
     return this.httpUtilService.request({
       method: 'GET',
-      url: `${process.env.ATTENDANCE_SERVICE_ENDPOINT}/attendance`,
+      url: `${process.env.ATTENDANCE_SERVICE_ENDPOINT}/attendance/my`,
       params: query,
       data: body,
       headers,

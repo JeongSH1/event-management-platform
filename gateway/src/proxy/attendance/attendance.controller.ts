@@ -21,6 +21,16 @@ export class AttendanceProxyController {
     );
   }
 
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.ADMIN)
+  @Get()
+  async findAllAttendanceLog(@Req() req: Request) {
+    return await this.attendanceApiService.proxyFindAllAttendanceLog(
+      req.body,
+      sanitizeHeaders(req.headers, req.user),
+    );
+  }
+
   @UseGuards(AuthGuard('jwt'))
   @Get('my')
   async findMyAttendanceLog(@Req() req: Request) {

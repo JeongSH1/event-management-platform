@@ -65,6 +65,7 @@ export class AuditService {
   async findAllLog(action?: USER_ACTION): Promise<AuditUserLogResponse[]> {
     const userLogs = await this.userLogModel
       .find(action ? { action } : {})
+      .select('-_id -__v')
       .lean();
     return userLogs.map(toAuditUserLogResponse);
   }
