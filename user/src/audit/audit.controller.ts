@@ -11,7 +11,7 @@ import { AuditService } from './audit.service';
 import { CreateUserLogDto } from './dto/create-user-log.dto';
 import { USER_ACTION } from './constants/user-action';
 
-@Controller('audit/user')
+@Controller('user/audit')
 export class AuditController {
   constructor(private readonly auditService: AuditService) {}
 

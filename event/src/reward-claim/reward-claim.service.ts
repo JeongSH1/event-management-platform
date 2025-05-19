@@ -1,7 +1,6 @@
 import { ConfirmService } from './confirm/confirm.service';
 import { LogService } from './log/log.service';
-import { ForbiddenException, Injectable } from '@nestjs/common';
-import { CreateRewardClaimDto } from './dto/create-reward-claim.dto';
+import { Injectable } from '@nestjs/common';
 import { EventRewardService } from '../event-reward/event-reward.service';
 import { CLAIM_RESULT_STATUS } from './log/constants/claim-result-status.constant';
 
@@ -13,8 +12,7 @@ export class RewardClaimService {
     private readonly logService: LogService,
   ) {}
 
-  async create(dto: CreateRewardClaimDto) {
-    const { userId, eventId } = dto;
+  async create(eventId: string, userId: string) {
 
     const event = await this.eventRewardService.findEvent(eventId);
     const reward = await this.eventRewardService.findReward(
@@ -33,7 +31,7 @@ export class RewardClaimService {
       } else {
         status = CLAIM_RESULT_STATUS.FAILED;
       }
-
+      await this.logService.create(userId, eventId, status, reward?.id);
       return {
         success: status === CLAIM_RESULT_STATUS.SUCCESS,
         message: error.message,

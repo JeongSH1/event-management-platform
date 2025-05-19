@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { FindRewardClaimLogDto } from './dto/find-log.dto';
-import {
-  RewardClaimLog,
-  RewardClaimLogDocument,
-} from './entities/reward-claim-log';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EventRewardService } from '../../event-reward/event-reward.service';
 import { CLAIM_RESULT_STATUS } from './constants/claim-result-status.constant';
+import {
+  RewardClaimLog,
+  RewardClaimLogDocument,
+} from './schemas/reward-claim-log.schema';
+import {RewardClaimLogResponse} from "./types/reward-claim-log-response.type";
+import {toRewardClaimLogResponse} from "../../util/mapper.util";
 
 @Injectable()
 export class LogService {
@@ -23,7 +25,7 @@ export class LogService {
     eventId: string,
     status: CLAIM_RESULT_STATUS,
     rewardId?: string,
-  ): Promise<RewardClaimLog> {
+  ): Promise<RewardClaimLogDocument> {
     return await this.rewardClaimLogModel.create({
       userId,
       eventId,
@@ -34,7 +36,7 @@ export class LogService {
 
   async findLogs(
     query: FindRewardClaimLogDto,
-  ): Promise<RewardClaimLogDocument[]> {
+  ): Promise<RewardClaimLogResponse[]> {
     const { userId, eventId, rewardId, status, fromDate, toDate } = query;
 
     const filter: any = {};
@@ -50,6 +52,8 @@ export class LogService {
       if (toDate) filter.createdAt.$lte = new Date(toDate);
     }
 
-    return this.rewardClaimLogModel.find(filter).sort({ createdAt: -1 }).lean();
+    const rewardClaimLogs = await this.rewardClaimLogModel.find(filter).sort({ createdAt: -1 }).lean();
+
+    return rewardClaimLogs.map(toRewardClaimLogResponse);
   }
 }

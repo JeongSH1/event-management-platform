@@ -71,7 +71,7 @@ export class EventProxyController {
     );
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(Role.OPERATOR, Role.ADMIN)
   @Patch(':eventId')
   async changeEvent(@Req() req: Request) {
@@ -80,6 +80,29 @@ export class EventProxyController {
       req.query,
       req.body,
       sanitizeHeaders(req.headers),
+    );
+  }
+
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.OPERATOR, Role.ADMIN, Role.AUDITOR)
+  @Get('reward-claim/log')
+  async findRewardClaims(@Req() req: Request) {
+    return await this.eventApiService.proxyFindRewardClaims(
+      req.query,
+      req.body,
+      sanitizeHeaders(req.headers),
+    );
+  }
+
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.USER)
+  @Post('reward-claim/:eventId')
+  async createRewardClaim(@Req() req: Request) {
+    return await this.eventApiService.proxyCreateRewardClaim(
+      req.params,
+      req.query,
+      req.body,
+      sanitizeHeaders(req.headers, req.user),
     );
   }
 }

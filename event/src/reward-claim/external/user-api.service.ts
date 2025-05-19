@@ -10,7 +10,7 @@ export class UserApiService {
     const baseUrl = process.env.USER_ENDPOINT_URL;
 
     const { data } = await firstValueFrom(
-      this.httpService.get(`${baseUrl}/audit/log/${userId}?action=edit_info`),
+      this.httpService.get(`${baseUrl}/user/audit/log/${userId}?action=edit_info`),
     );
 
     return data;
@@ -20,7 +20,7 @@ export class UserApiService {
     const baseUrl = process.env.USER_ENDPOINT_URL;
 
     const { data } = await firstValueFrom(
-      this.httpService.get(`${baseUrl}/audit/log/${userId}?action=recommended`),
+      this.httpService.get(`${baseUrl}/user/audit/log/${userId}?action=recommended`),
     );
 
     return data;

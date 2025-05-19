@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import {
   RewardClaimLog,
   RewardClaimLogSchema,
-} from './entities/reward-claim-log';
+} from './schemas/reward-claim-log.schema';
 import { EventRewardModule } from '../../event-reward/event-reward.module';
 
 @Module({
