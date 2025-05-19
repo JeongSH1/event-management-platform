@@ -8,8 +8,8 @@ import {
   RewardClaimLog,
   RewardClaimLogDocument,
 } from './schemas/reward-claim-log.schema';
-import {RewardClaimLogResponse} from "./types/reward-claim-log-response.type";
-import {toRewardClaimLogResponse} from "../../util/mapper.util";
+import { RewardClaimLogResponse } from './types/reward-claim-log-response.type';
+import { toRewardClaimLogResponse } from '../../util/mapper.util';
 
 @Injectable()
 export class LogService {
@@ -52,7 +52,19 @@ export class LogService {
       if (toDate) filter.createdAt.$lte = new Date(toDate);
     }
 
-    const rewardClaimLogs = await this.rewardClaimLogModel.find(filter).sort({ createdAt: -1 }).lean();
+    const rewardClaimLogs = await this.rewardClaimLogModel
+      .find(filter)
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return rewardClaimLogs.map(toRewardClaimLogResponse);
+  }
+
+  async findMyLogs(userId: string): Promise<RewardClaimLogResponse[]> {
+    const rewardClaimLogs = await this.rewardClaimLogModel
+      .find({ userId })
+      .sort({ createdAt: -1 })
+      .lean();
 
     return rewardClaimLogs.map(toRewardClaimLogResponse);
   }

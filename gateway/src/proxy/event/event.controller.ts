@@ -105,4 +105,14 @@ export class EventProxyController {
       sanitizeHeaders(req.headers, req.user),
     );
   }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('reward-claim/log/my')
+  async getMyRewardClaim(@Req() req: Request) {
+    return await this.eventApiService.proxyFindMyRewardClaim(
+      req.query,
+      req.body,
+      sanitizeHeaders(req.headers, req.user),
+    );
+  }
 }

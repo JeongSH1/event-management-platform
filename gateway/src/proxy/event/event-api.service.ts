@@ -99,10 +99,23 @@ export class EventApiService {
   ): Promise<any> {
     const eventId = params.eventId;
 
-
     return this.httpUtilService.request({
       method: 'POST',
       url: `${process.env.EVENT_SERVICE_ENDPOINT}/event/reward-claim/${eventId}`,
+      params: query,
+      data: body,
+      headers,
+    });
+  }
+
+  async proxyFindMyRewardClaim(
+    query: any,
+    body: any,
+    headers: any,
+  ): Promise<any> {
+    return this.httpUtilService.request({
+      method: 'GET',
+      url: `${process.env.EVENT_SERVICE_ENDPOINT}/event/reward-claim/log/my`,
       params: query,
       data: body,
       headers,
