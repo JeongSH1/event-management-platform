@@ -5,7 +5,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { ConditionService } from './condition/condition.service';
 import { EventDetailResponse } from './types/event-detail-resposne.type';
-import { toEventDetailResponse } from './utils/mapper.util';
+import { toEventDetailResponse } from '../util/mapper.util';
 
 @Injectable()
 export class EventService {

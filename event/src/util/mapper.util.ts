@@ -1,5 +1,7 @@
-import { Event } from '../schemas/event.schema';
-import { EventDetailResponse } from '../types/event-detail-resposne.type';
+import { Event } from '../event/schemas/event.schema';
+import { EventDetailResponse } from '../event/types/event-detail-resposne.type';
+import { RewardItemCategory } from '../reward/schemas/reward-item-category.schema';
+import { RewardItemCategoryResponse } from '../reward/types/reward-item-category.response';
 
 export function toEventDetailResponse(event: Event): EventDetailResponse {
   return {
@@ -20,5 +22,15 @@ export function toEventDetailResponse(event: Event): EventDetailResponse {
       startAt: c.startAt.toISOString(),
       endAt: c.endAt.toISOString(),
     })),
+  };
+}
+
+export function toRewardItemCategoryResponse(
+  rewardItemCategory: RewardItemCategory,
+): RewardItemCategoryResponse {
+  return {
+    code: rewardItemCategory.code,
+    name: rewardItemCategory.name,
+    description: rewardItemCategory?.description,
   };
 }

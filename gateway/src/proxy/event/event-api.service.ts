@@ -22,4 +22,13 @@ export class EventApiService {
       headers,
     });
   }
+
+  async proxyRewardItemCategory(body: any, headers: any): Promise<any> {
+    return this.httpUtilService.request({
+      method: 'GET',
+      url: `${process.env.EVENT_SERVICE_ENDPOINT}/event/reward/item-category`,
+      data: body,
+      headers,
+    });
+  }
 }

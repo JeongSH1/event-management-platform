@@ -30,4 +30,14 @@ export class EventProxyController {
       sanitizeHeaders(req.headers),
     );
   }
+
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.OPERATOR, Role.ADMIN)
+  @Get('reward/item-category')
+  async rewardItemCategory(@Req() req: Request) {
+    return await this.eventApiService.proxyRewardItemCategory(
+      req.body,
+      sanitizeHeaders(req.headers),
+    );
+  }
 }
