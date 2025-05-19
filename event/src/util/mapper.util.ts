@@ -5,13 +5,10 @@ import { RewardGameItem } from '../reward/schemas/reward-game-item.schema';
 import { RewardGameItemResponse } from '../reward/types/reward-game-item.response';
 import { Reward } from '../reward/schemas/reward.schema';
 import { CreateRewardResponse } from '../event-reward/types/create-reward-response.type';
-import {RewardClaimLog} from "../reward-claim/log/schemas/reward-claim-log.schema";
-import {RewardClaimLogResponse} from "../reward-claim/log/types/reward-claim-log-response.type";
-import {CLAIM_RESULT_STATUS} from "../reward-claim/log/constants/claim-result-status.constant";
+import { RewardClaimLog } from '../reward-claim/log/schemas/reward-claim-log.schema';
+import { RewardClaimLogResponse } from '../reward-claim/log/types/reward-claim-log-response.type';
 
-export function toEventDetailResponse(
-  event: any
-): EventDetailResponse {
+export function toEventDetailResponse(event: any): EventDetailResponse {
   return {
     id: event.id,
     title: event.title,

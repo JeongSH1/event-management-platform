@@ -7,6 +7,7 @@ import { ConditionService } from './condition/condition.service';
 import { EventDetailResponse } from './types/event-detail-resposne.type';
 import { toEventDetailResponse } from '../util/mapper.util';
 import { EVENT_STATUS } from './constants/event-status.constant';
+import { RewardService } from '../reward/reward.service';
 
 @Injectable()
 export class EventService {
@@ -14,6 +15,7 @@ export class EventService {
     @InjectModel(Event.name)
     private readonly eventModel: Model<EventDocument>,
 
+    private readonly rewardService: RewardService,
     private readonly conditionService: ConditionService,
   ) {}
 
@@ -60,7 +62,7 @@ export class EventService {
 
   async findAll({ status }): Promise<Event[]> {
     const filter = status ? { status } : {};
-    return this.eventModel.find(filter).sort({startAt: -1}).lean();
+    return this.eventModel.find(filter).sort({ startAt: -1 }).lean();
   }
 
   async findOne(id: string): Promise<Event> {
@@ -83,7 +85,12 @@ export class EventService {
       throw new NotFoundException(`이벤트를 찾을 수 없습니다.`);
     }
 
-    return toEventDetailResponse(updated);
+    let reward = undefined;
+    if (updated.rewardId) {
+      reward = await this.rewardService.findOne(updated.rewardId);
+    }
+
+    return toEventDetailResponse({ ...updated, reward });
   }
 
   async aggregate(pipeline) {
