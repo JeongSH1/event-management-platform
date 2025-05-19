@@ -16,8 +16,10 @@ export class RewardClaimService {
   async create(dto: CreateRewardClaimDto) {
     const { userId, eventId } = dto;
 
-    const { event, reward } =
-      await this.eventRewardService.getEventWithReward(eventId);
+    const event = await this.eventRewardService.findEvent(eventId);
+    const reward = await this.eventRewardService.findReward(
+      event?.rewardId || '',
+    );
 
     let status: CLAIM_RESULT_STATUS = CLAIM_RESULT_STATUS.FAILED;
 

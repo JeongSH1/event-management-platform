@@ -1,3 +1,17 @@
+import { REWARD_ITEM_CATEGORY_CODE } from '../../reward/constants/reward-item-category.constant';
+
+interface _RewardItemResponse {
+  rewardItemCategoryCode: REWARD_ITEM_CATEGORY_CODE;
+  quantity: number;
+  itemId?: string;
+  itemName?: string;
+}
+
+interface _RewardResponse {
+  description?: string;
+  rewardItems: _RewardItemResponse[];
+}
+
 export interface EventDetailResponse {
   id: string;
   title: string;
@@ -16,4 +30,5 @@ export interface EventDetailResponse {
   }[];
   createdAt: string;
   updatedAt: string;
+  reward: _RewardResponse;
 }

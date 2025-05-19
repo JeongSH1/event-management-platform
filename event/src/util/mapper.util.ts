@@ -3,12 +3,13 @@ import { EventDetailResponse } from '../event/types/event-detail-resposne.type';
 import { RewardItemCategory } from '../reward/schemas/reward-item-category.schema';
 import { RewardItemCategoryResponse } from '../reward/types/reward-item-category.response';
 import { RewardGameItem } from '../reward/schemas/reward-game-item.schema';
-import { raceWith } from 'rxjs';
 import { RewardGameItemResponse } from '../reward/types/reward-game-item.response';
 import { Reward } from '../reward/schemas/reward.schema';
 import { CreateRewardResponse } from '../event-reward/types/create-reward-response.type';
 
-export function toEventDetailResponse(event: Event): EventDetailResponse {
+export function toEventDetailResponse(
+  event: any
+): EventDetailResponse {
   return {
     id: event.id,
     title: event.title,
@@ -27,6 +28,20 @@ export function toEventDetailResponse(event: Event): EventDetailResponse {
       startAt: c.startAt.toISOString(),
       endAt: c.endAt.toISOString(),
     })),
+    reward: event.rewardId
+      ? {
+          description: event.reward.description,
+          rewardItems: (event.reward.rewardItems || []).map((item) => ({
+            rewardItemCategoryCode: item.rewardItemCategoryCode,
+            quantity: item.quantity,
+            itemId: item.itemId,
+            itemName: item.itemName,
+          })),
+        }
+      : {
+          description: undefined,
+          rewardItems: [],
+        },
   };
 }
 

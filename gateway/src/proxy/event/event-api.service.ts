@@ -59,4 +59,21 @@ export class EventApiService {
       headers,
     });
   }
+
+  async proxyChangeEventStatus(
+    params: any,
+    query: any,
+    body: any,
+    headers: any,
+  ): Promise<any> {
+    const eventId = params.eventId;
+
+    return this.httpUtilService.request({
+      method: 'PATCH',
+      url: `${process.env.EVENT_SERVICE_ENDPOINT}/event/${eventId}`,
+      params: query,
+      data: body,
+      headers,
+    });
+  }
 }

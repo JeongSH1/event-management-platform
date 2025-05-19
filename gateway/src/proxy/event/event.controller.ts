@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { sanitizeHeaders } from '../common/util/header.util';
 import { EventApiService } from './event-api.service';
@@ -61,11 +61,22 @@ export class EventProxyController {
     );
   }
 
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles(Role.OPERATOR, Role.ADMIN)
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   async findEvent(@Req() req: Request) {
     return await this.eventApiService.proxyFindEvent(
+      req.query,
+      req.body,
+      sanitizeHeaders(req.headers),
+    );
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Roles(Role.OPERATOR, Role.ADMIN)
+  @Patch(':eventId')
+  async changeEvent(@Req() req: Request) {
+    return await this.eventApiService.proxyChangeEventStatus(
+      req.params,
       req.query,
       req.body,
       sanitizeHeaders(req.headers),

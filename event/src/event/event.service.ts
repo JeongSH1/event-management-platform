@@ -6,6 +6,7 @@ import { CreateEventDto } from './dto/create-event.dto';
 import { ConditionService } from './condition/condition.service';
 import { EventDetailResponse } from './types/event-detail-resposne.type';
 import { toEventDetailResponse } from '../util/mapper.util';
+import { EVENT_STATUS } from './constants/event-status.constant';
 
 @Injectable()
 export class EventService {
@@ -57,14 +58,9 @@ export class EventService {
     }
   }
 
-  async findAll({ status }): Promise<EventDetailResponse[]> {
+  async findAll({ status }): Promise<Event[]> {
     const filter = status ? { status } : {};
-    console.log(status);
-    const event = await this.eventModel
-      .find(filter)
-      .sort({ startAt: -1 })
-      .lean();
-    return event.map(toEventDetailResponse);
+    return this.eventModel.find(filter).sort({startAt: -1}).lean();
   }
 
   async findOne(id: string): Promise<Event> {
@@ -75,7 +71,22 @@ export class EventService {
     return event;
   }
 
-  async find(ids: string[]): Promise<Event[]> {
-    return this.eventModel.find({ id: { $in: ids } }).lean();
+  async updateStatus(
+    id: string,
+    status: EVENT_STATUS,
+  ): Promise<EventDetailResponse> {
+    const updated = await this.eventModel
+      .findOneAndUpdate({ id }, { status }, { new: true })
+      .lean();
+
+    if (!updated) {
+      throw new NotFoundException(`이벤트를 찾을 수 없습니다.`);
+    }
+
+    return toEventDetailResponse(updated);
+  }
+
+  async aggregate(pipeline) {
+    return this.eventModel.aggregate(pipeline);
   }
 }
