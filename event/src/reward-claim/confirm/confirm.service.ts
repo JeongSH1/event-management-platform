@@ -24,6 +24,17 @@ export class ConfirmService {
     userId: string,
     event: Event,
   ): Promise<void> {
+    const now = new Date();
+
+    if (now < event.startAt || now > event.endAt) {
+      throw new ForbiddenException({
+        statusCode: 403,
+        message: '이벤트 참여 가능 기간이 아닙니다.',
+        error: 'Forbidden',
+        resultState: CLAIM_RESULT_STATUS.EVENT_NOT_STARTED,
+      });
+    }
+
     if (event.status !== EVENT_STATUS.ACTIVE) {
       throw new ForbiddenException({
         statusCode: 403,
@@ -74,7 +85,6 @@ export class ConfirmService {
       }
     }
   }
-
 
   private conditionCheckers: Record<
     CONDITION_CATEGORY_CODE,
