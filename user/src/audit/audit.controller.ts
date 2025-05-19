@@ -31,15 +31,17 @@ export class AuditController {
   @Get('log/my')
   findMyLog(
     @Headers('x-user-id') userId: string,
-    @Query('action', new ParseEnumPipe(USER_ACTION, { optional: true })) action?: USER_ACTION,
+    @Query('action', new ParseEnumPipe(USER_ACTION, { optional: true }))
+    action?: USER_ACTION,
   ): Promise<AuditUserLogResponse[]> {
     return this.auditService.findUserLog(userId, action);
   }
 
-  @Get('log/user/:userId')
+  @Get('log/:userId')
   findUserLog(
     @Param('userId') userId: string,
-    @Query('action', new ParseEnumPipe(USER_ACTION, { optional: true })) action?: USER_ACTION,
+    @Query('action', new ParseEnumPipe(USER_ACTION, { optional: true }))
+    action?: USER_ACTION,
   ): Promise<AuditUserLogResponse[]> {
     return this.auditService.findUserLog(userId, action);
   }

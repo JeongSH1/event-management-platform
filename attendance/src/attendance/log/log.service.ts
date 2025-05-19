@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { AttendanceLog, AttendanceLogDocument } from './schemas/log.schema';
 import { Model } from 'mongoose';
 import * as dayjs from 'dayjs';
-import { convertSecondToFormattedTime } from '../util/time.util'; // 위치에 따라 조정
+import { convertSecondToFormattedTime } from '../util/time.util';
 
 @Injectable()
 export class LogService {

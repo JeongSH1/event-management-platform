@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { LogService } from './log/log.service';
 import { SummaryService } from './summary/summary.service';
 import { FindAttendanceDto } from './dto/find-attendance.dto';
+import { AttendanceLogResponse } from './types/attendance-log-response.type';
+import { toAttendanceLogResponse } from '../util/mapper.util';
 
 @Injectable()
 export class AttendanceService {
@@ -22,8 +23,13 @@ export class AttendanceService {
   async findUserAttendanceByDuration(
     userId: string,
     findAttendanceDto: FindAttendanceDto,
-  ) {
+  ): Promise<AttendanceLogResponse[]> {
     const { startAt, endAt } = findAttendanceDto;
-    return await this.logService.findAllByDuration(userId, startAt, endAt);
+    const attendanceLogs = await this.logService.findAllByDuration(
+      userId,
+      startAt,
+      endAt,
+    );
+    return attendanceLogs.map(toAttendanceLogResponse);
   }
 }

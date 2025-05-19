@@ -29,6 +29,7 @@ export class RewardClaimService {
       if (error?.response?.resultState) {
         status = error.response.resultState;
       } else {
+        console.log(error)
         status = CLAIM_RESULT_STATUS.FAILED;
       }
       await this.logService.create(userId, eventId, status, reward?.id);
