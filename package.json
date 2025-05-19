@@ -15,9 +15,12 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
+    "start:auth": "npm --prefix auth run start",
+    "start:event": "npm --prefix event run start",
     "start:attendance": "npm --prefix attendance run start",
     "start:user": "npm --prefix user run start",
-    "start:all": "concurrently \"npm run start:attendance\" \"npm run start:user\""
+    "start:gateway": "npm --prefix gateway run start",
+    "start:all": "concurrently \"npm run start:attendance\" \"npm run start:user\" \"npm run start:event\" \"npm run start:auth\" \"npm run start:gateway\""
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
