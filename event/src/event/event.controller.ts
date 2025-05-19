@@ -1,7 +1,16 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Query,
+  ParseEnumPipe,
+} from '@nestjs/common';
 import { EventService } from './event.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { EventDetailResponse } from './types/event-detail-resposne.type';
+import { EVENT_STATUS } from './constants/event-status.constant';
 
 @Controller('event')
 export class EventController {
@@ -13,8 +22,11 @@ export class EventController {
   }
 
   @Get()
-  findAll() {
-    return this.eventService.findAll();
+  findAll(
+    @Query('status')
+    status?: EVENT_STATUS,
+  ): Promise<EventDetailResponse[]> {
+    return this.eventService.findAll({ status });
   }
 
   @Get(':id')

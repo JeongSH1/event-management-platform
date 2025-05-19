@@ -57,8 +57,14 @@ export class EventService {
     }
   }
 
-  async findAll(): Promise<Event[]> {
-    return this.eventModel.find().sort({ startAt: -1 }).lean();
+  async findAll({ status }): Promise<EventDetailResponse[]> {
+    const filter = status ? { status } : {};
+    console.log(status);
+    const event = await this.eventModel
+      .find(filter)
+      .sort({ startAt: -1 })
+      .lean();
+    return event.map(toEventDetailResponse);
   }
 
   async findOne(id: string): Promise<Event> {

@@ -49,4 +49,14 @@ export class EventApiService {
       headers,
     });
   }
+
+  async proxyFindEvent(query: any, body: any, headers: any): Promise<any> {
+    return this.httpUtilService.request({
+      method: 'GET',
+      url: `${process.env.EVENT_SERVICE_ENDPOINT}/event`,
+      params: query,
+      data: body,
+      headers,
+    });
+  }
 }

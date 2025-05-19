@@ -60,4 +60,15 @@ export class EventProxyController {
       sanitizeHeaders(req.headers),
     );
   }
+
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.OPERATOR, Role.ADMIN)
+  @Get()
+  async findEvent(@Req() req: Request) {
+    return await this.eventApiService.proxyFindEvent(
+      req.query,
+      req.body,
+      sanitizeHeaders(req.headers),
+    );
+  }
 }
