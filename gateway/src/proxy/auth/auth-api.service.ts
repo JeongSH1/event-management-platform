@@ -22,4 +22,13 @@ export class AuthApiService {
       headers,
     });
   }
+
+  async proxyRefresh(body: any, headers: any): Promise<any> {
+    return this.httpUtilService.request({
+      method: 'GET',
+      url: `${process.env.AUTH_SERVICE_ENDPOINT}/auth/refresh`,
+      data: body,
+      headers,
+    });
+  }
 }

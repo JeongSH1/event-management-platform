@@ -108,13 +108,18 @@ export class AuthService {
     return tokens;
   }
 
-  async verifyTokens(jwtToken: JwtToken): Promise<JwtPayload> {
+  async verifyTokens(jwtToken: JwtToken): Promise<JwtToken> {
     const { accessToken, refreshToken } = jwtToken;
 
     try {
-      return await this.jwtService.verifyAsync<JwtPayload>(accessToken, {
+      await this.jwtService.verifyAsync<JwtPayload>(accessToken, {
         secret: process.env.JWT_SECRET,
       });
+
+      return {
+        accessToken,
+        refreshToken,
+      };
     } catch (accessErr) {
       if (accessErr.name !== 'TokenExpiredError') {
         throw new UnauthorizedException('잘못된 액세스 토큰입니다.');
@@ -124,7 +129,7 @@ export class AuthService {
     }
   }
 
-  private async _validateAndRefresh(refreshToken: string): Promise<JwtPayload> {
+  private async _validateAndRefresh(refreshToken: string): Promise<JwtToken> {
     if (!refreshToken) {
       throw new UnauthorizedException('리프레시 토큰이 필요합니다.');
     }
@@ -141,6 +146,7 @@ export class AuthService {
     const user = await this.userCredentialModel.findOne({
       userId: refreshPayload.sub,
     });
+
     if (!user || !user.refreshToken) {
       throw new ForbiddenException('사용자 인증 정보가 없습니다.');
     }
@@ -149,6 +155,7 @@ export class AuthService {
       refreshToken,
       user.refreshToken,
     );
+
     if (!isRefreshMatch) {
       throw new ForbiddenException('리프레시 토큰이 일치하지 않습니다.');
     }
@@ -162,6 +169,6 @@ export class AuthService {
     const tokens = this._generateTokens(newPayload);
     await this._storeRefreshToken(user, tokens.refreshToken);
 
-    return newPayload;
+    return tokens;
   }
 }
