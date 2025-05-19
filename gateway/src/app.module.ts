@@ -7,9 +7,10 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
       envFilePath:
         process.env.NODE_ENV === 'test' ? '.env.for.test' : '.env.for.submit',
-      isGlobal: true,
+      ignoreEnvFile: process.env.IS_DOCKER === 'true',
     }),
     ProxyModule,
   ],

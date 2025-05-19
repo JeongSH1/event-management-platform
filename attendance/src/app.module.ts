@@ -8,9 +8,10 @@ import { AttendanceModule } from './attendance/attendance.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath:
-        process.env.NODE_ENV === 'test' ? '.env.for.test' : '.env.for.submit',
       isGlobal: true,
+      envFilePath:
+          process.env.NODE_ENV === 'test' ? '.env.for.test' : '.env.for.submit',
+      ignoreEnvFile: process.env.IS_DOCKER === 'true',
     }),
     MongooseModule.forRoot(process.env.MONGO_URI),
     AttendanceModule,

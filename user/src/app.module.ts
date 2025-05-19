@@ -9,9 +9,10 @@ import { AuditModule } from './audit/audit.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
       envFilePath:
         process.env.NODE_ENV === 'test' ? '.env.for.test' : '.env.for.submit',
-      isGlobal: true,
+      ignoreEnvFile: process.env.IS_DOCKER === 'true',
     }),
     MongooseModule.forRoot(process.env.MONGO_URI),
     UserModule,
