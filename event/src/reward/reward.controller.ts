@@ -1,17 +1,19 @@
 import { Controller, Get } from '@nestjs/common';
 import { RewardService } from './reward.service';
+import { RewardItemCategoryResponse } from './types/reward-item-category.response';
+import { RewardGameItemResponse } from './types/reward-game-item.response';
 
-@Controller('reward')
+@Controller('event/reward')
 export class RewardController {
   constructor(private readonly rewardService: RewardService) {}
 
   @Get('game-item')
-  findAllRewardGameItem() {
+  async findAllRewardGameItem(): Promise<RewardGameItemResponse[]> {
     return this.rewardService.findAllRewardGameItem();
   }
 
   @Get('item-category')
-  findAllItemRewardCategory() {
+  async findAllItemRewardCategory(): Promise<RewardItemCategoryResponse[]> {
     return this.rewardService.findAllItemRewardCategory();
   }
 }

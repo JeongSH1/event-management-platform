@@ -1,13 +1,15 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Headers, Param, Post } from '@nestjs/common';
 import { RewardClaimService } from './reward-claim.service';
-import { CreateRewardClaimDto } from './dto/create-reward-claim.dto';
 
-@Controller('reward-claim')
+@Controller('event/reward-claim')
 export class RewardClaimController {
   constructor(private readonly rewardClaimService: RewardClaimService) {}
 
-  @Post()
-  async createClaim(@Body() dto: CreateRewardClaimDto) {
-    return this.rewardClaimService.create(dto);
+  @Post(':eventId')
+  async createClaim(
+    @Param('eventId') eventId: string,
+    @Headers('x-user-id') userId: string,
+  ) {
+    return this.rewardClaimService.create(eventId, userId);
   }
 }

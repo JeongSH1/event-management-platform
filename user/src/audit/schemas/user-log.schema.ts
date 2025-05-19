@@ -19,6 +19,7 @@ export class UserLog {
   after?: Record<string, any>;
 
   createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export const UserLogSchema = SchemaFactory.createForClass(UserLog);

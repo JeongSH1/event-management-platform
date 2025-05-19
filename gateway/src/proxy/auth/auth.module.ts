@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
-import { HttpModule } from '@nestjs/axios';
 import { AuthApiService } from './auth-api.service';
 import { AuthProxyController } from './auth.controller';
-import { HttpUtilService } from '../common/util/http-util.service';
+import { CommonModule } from '../common/common.module';
 
 @Module({
-  imports: [HttpModule],
+  imports: [CommonModule],
   controllers: [AuthProxyController],
-  providers: [AuthApiService, HttpUtilService],
+  providers: [AuthApiService],
 })
 export class AuthProxyModule {}

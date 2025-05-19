@@ -17,6 +17,9 @@ export class RewardClaimLog {
 
   @Prop({ required: true, enum: CLAIM_RESULT_STATUS })
   status: CLAIM_RESULT_STATUS;
+
+  createdAt: Date;
 }
 
-export const RewardClaimLogSchema = SchemaFactory.createForClass(RewardClaimLog);
+export const RewardClaimLogSchema =
+  SchemaFactory.createForClass(RewardClaimLog);

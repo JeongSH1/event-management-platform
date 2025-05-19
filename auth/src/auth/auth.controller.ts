@@ -26,15 +26,24 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
-  @Get('verify-token')
-  async verifyToken(
+  @Get('refresh')
+  async refresh(
     @Headers('Authorization') accessToken: string,
     @Headers('x-refresh-token') refreshToken: string,
-  ): Promise<JwtPayload> {
-    if (!accessToken) {
-      throw new UnauthorizedException('토큰이 없습니다.');
-    }
-
+  ): Promise<JwtToken> {
     return await this.authService.verifyTokens({ accessToken, refreshToken });
   }
+
+  // 토큰 인증은 게이트웨이 서비스에 위임.
+  // @Get('verify-token')
+  // async verifyToken(
+  //   @Headers('Authorization') accessToken: string,
+  //   @Headers('x-refresh-token') refreshToken: string,
+  // ): Promise<JwtPayload> {
+  //   if (!accessToken) {
+  //     throw new UnauthorizedException('토큰이 없습니다.');
+  //   }
+  //
+  //   return await this.authService.verifyTokens({ accessToken, refreshToken });
+  // }
 }

@@ -1,12 +1,14 @@
-import { IsDate } from 'class-validator';
+import { IsDate, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class FindAttendanceDto {
-  @IsDate()
+  @IsOptional()
   @Type(() => Date)
-  startAt: Date;
+  @IsDate()
+  startAt?: Date;
 
-  @IsDate()
+  @IsOptional()
   @Type(() => Date)
-  endAt: Date;
+  @IsDate()
+  endAt?: Date;
 }

@@ -4,6 +4,9 @@ import { Event, EventDocument } from './schemas/event.schema';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { ConditionService } from './condition/condition.service';
+import { EventDetailResponse } from './types/event-detail-resposne.type';
+import { toEventDetailResponse } from '../util/mapper.util';
+import { EVENT_STATUS } from './constants/event-status.constant';
 
 @Injectable()
 export class EventService {
@@ -14,7 +17,7 @@ export class EventService {
     private readonly conditionService: ConditionService,
   ) {}
 
-  async create(createEventDto: CreateEventDto): Promise<Event> {
+  async create(createEventDto: CreateEventDto): Promise<EventDetailResponse> {
     const { title, description, startAt, endAt, status, conditions } =
       createEventDto;
 
@@ -24,7 +27,7 @@ export class EventService {
       ),
     );
 
-    return await this.eventModel.create({
+    const created: Event = await this.eventModel.create({
       title,
       description,
       startAt,
@@ -32,6 +35,8 @@ export class EventService {
       status,
       conditions: conditionObjects,
     });
+
+    return toEventDetailResponse(created);
   }
 
   async checkEventExists(eventId: string): Promise<void> {
@@ -53,8 +58,9 @@ export class EventService {
     }
   }
 
-  async findAll(): Promise<Event[]> {
-    return this.eventModel.find().sort({ startAt: -1 }).lean();
+  async findAll({ status }): Promise<Event[]> {
+    const filter = status ? { status } : {};
+    return this.eventModel.find(filter).sort({startAt: -1}).lean();
   }
 
   async findOne(id: string): Promise<Event> {
@@ -65,7 +71,22 @@ export class EventService {
     return event;
   }
 
-  async find(ids: string[]): Promise<Event[]> {
-    return this.eventModel.find({ id: { $in: ids } }).lean();
+  async updateStatus(
+    id: string,
+    status: EVENT_STATUS,
+  ): Promise<EventDetailResponse> {
+    const updated = await this.eventModel
+      .findOneAndUpdate({ id }, { status }, { new: true })
+      .lean();
+
+    if (!updated) {
+      throw new NotFoundException(`이벤트를 찾을 수 없습니다.`);
+    }
+
+    return toEventDetailResponse(updated);
+  }
+
+  async aggregate(pipeline) {
+    return this.eventModel.aggregate(pipeline);
   }
 }

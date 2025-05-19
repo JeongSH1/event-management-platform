@@ -63,7 +63,6 @@ export class ConfirmService {
         });
       }
 
-
       const passed = await checker(userId, condition);
       if (!passed) {
         throw new ForbiddenException({
@@ -75,6 +74,7 @@ export class ConfirmService {
       }
     }
   }
+
 
   private conditionCheckers: Record<
     CONDITION_CATEGORY_CODE,
@@ -142,7 +142,7 @@ export class ConfirmService {
     const { startAt, endAt } = condition;
 
     const userLogs = await this.userApiService.getRecommendedLogs(userId);
-    
+
     const filtered = userLogs.filter((log) => {
       const createdAt = new Date(log.createdAt);
       return (
