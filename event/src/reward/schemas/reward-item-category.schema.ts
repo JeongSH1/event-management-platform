@@ -5,7 +5,7 @@ export type RewardItemCategoryDocument = RewardItemCategory & Document;
 
 @Schema({ collection: 'reward_item_categories' })
 export class RewardItemCategory {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, index: true })
   code: string;
 
   @Prop({ required: true })

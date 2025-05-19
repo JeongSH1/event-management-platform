@@ -6,7 +6,7 @@ export type UserLogDocument = UserLog & Document;
 
 @Schema({ collection: 'user_logs', timestamps: true })
 export class UserLog {
-  @Prop({ required: true })
+  @Prop({ required: true, index: true })
   userId: string;
 
   @Prop({ required: true, enum: USER_ACTION })

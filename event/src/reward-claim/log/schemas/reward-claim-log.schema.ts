@@ -6,13 +6,13 @@ export type RewardClaimLogDocument = RewardClaimLog & Document;
 
 @Schema({ collection: 'reward_claim_logs', timestamps: true })
 export class RewardClaimLog {
-  @Prop({ required: true })
+  @Prop({ required: true, index: true })
   userId: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, index: true })
   eventId: string;
 
-  @Prop({ required: false })
+  @Prop({ required: false, index: true })
   rewardId: string;
 
   @Prop({ required: true, enum: CLAIM_RESULT_STATUS })

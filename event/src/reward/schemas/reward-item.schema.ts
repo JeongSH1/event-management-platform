@@ -3,13 +3,13 @@ import { REWARD_ITEM_CATEGORY_CODE } from '../constants/reward-item-category.con
 
 @Schema({ _id: false })
 export class RewardItem {
-  @Prop({ required: true, enum: REWARD_ITEM_CATEGORY_CODE })
+  @Prop({ required: true, enum: REWARD_ITEM_CATEGORY_CODE, index: true })
   rewardItemCategoryCode: REWARD_ITEM_CATEGORY_CODE;
 
   @Prop({ required: true, type: Number, min: 1 })
   quantity: number;
 
-  @Prop({ required: false })
+  @Prop({ required: false, index: true })
   itemId?: string;
 
   @Prop({ required: false })

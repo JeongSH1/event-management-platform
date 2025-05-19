@@ -5,7 +5,7 @@ export type AttendanceLogDocument = AttendanceLog & Document;
 
 @Schema({ collection: 'attendance_logs', timestamps: true })
 export class AttendanceLog {
-  @Prop({ required: true })
+  @Prop({ required: true, index: true })
   userId: string;
 
   @Prop({ required: true })

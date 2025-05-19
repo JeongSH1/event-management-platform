@@ -37,7 +37,7 @@ export class Event {
   @Prop({ type: [ConditionSchema], default: [] })
   conditions: Condition[];
 
-  @Prop({ type: String, required: false })
+  @Prop({ type: String, required: false, index: true })
   rewardId?: string; // 예: 'rew_3f8a9c61-df56-41b8-bdea-02323d832a6f'
 
   createdAt: Date;
