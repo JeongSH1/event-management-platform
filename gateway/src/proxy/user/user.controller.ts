@@ -1,9 +1,6 @@
 import { Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
 import { UserApiService } from './user-api.service';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from '../../guards/roles.guard';
-import { Roles } from '../../common/decorators/roles.decorator';
-import { Role } from '../../common/constants/role.constant';
 import { Request } from 'express';
 import { sanitizeHeaders } from '../common/util/header.util';
 

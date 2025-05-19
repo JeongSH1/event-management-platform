@@ -1,6 +1,5 @@
-import { Controller, Post, Body, Get, Param, Query } from '@nestjs/common';
+import { Controller, Post, Get, Param, Query, Headers } from '@nestjs/common';
 import { AttendanceService } from './attendance.service';
-import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { FindAttendanceDto } from './dto/find-attendance.dto';
 
 @Controller('attendance')
@@ -8,8 +7,8 @@ export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) {}
 
   @Post()
-  makeAttendance(@Body() createAttendanceDto: CreateAttendanceDto) {
-    return this.attendanceService.makeAttendance(createAttendanceDto);
+  makeAttendance(@Headers('x-user-id') userId: string) {
+    return this.attendanceService.makeAttendance(userId);
   }
 
   @Get(':userId')
