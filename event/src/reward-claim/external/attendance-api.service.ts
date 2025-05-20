@@ -11,7 +11,7 @@ export class AttendanceApiService {
     startAt: Date,
     endAt: Date,
   ): Promise<any[]> {
-    const baseUrl = process.env.ATTENDANCE_API_URL;
+    const baseUrl = process.env.ATTENDANCE_ENDPOINT_URL;
 
     const { data } = await firstValueFrom(
       this.httpService.get(`${baseUrl}/attendance/${userId}`, {

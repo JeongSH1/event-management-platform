@@ -16,6 +16,12 @@ docker compose build
 
 # 컨테이너 실행 (백그라운드 모드)
 docker compose up -d
+
+# 종료
+docker compose down
+
+# (참고) DB 접속 URL
+mongodb://root:1234@localhost:12067/
 ```
 
 ### 주요 포트 안내
