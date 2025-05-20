@@ -7,6 +7,8 @@ import { Reward } from '../reward/schemas/reward.schema';
 import { CreateRewardResponse } from '../event-reward/types/create-reward-response.type';
 import { RewardClaimLog } from '../reward-claim/log/schemas/reward-claim-log.schema';
 import { RewardClaimLogResponse } from '../reward-claim/log/types/reward-claim-log-response.type';
+import { RewardProvisionLog } from '../reward-claim/log/schemas/reward-provision-log.schema';
+import { RewardProvisionLogResponse } from '../reward-claim/log/types/reward-provision-log-response.type';
 
 export function toEventDetailResponse(event: any): EventDetailResponse {
   return {
@@ -84,5 +86,16 @@ export function toRewardClaimLogResponse(
     rewardId: rewardClaimLog.rewardId,
     status: rewardClaimLog.status,
     createdAt: rewardClaimLog.createdAt.toISOString(),
+  };
+}
+
+export function toRewardProvisionLogResponse(
+  rewardProvisionLog: RewardProvisionLog,
+): RewardProvisionLogResponse {
+  return {
+    userId: rewardProvisionLog.userId,
+    eventId: rewardProvisionLog.eventId,
+    rewardId: rewardProvisionLog.rewardId,
+    createdAt: rewardProvisionLog.createdAt.toISOString(),
   };
 }

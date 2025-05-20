@@ -6,13 +6,18 @@ import {
   RewardClaimLog,
   RewardClaimLogSchema,
 } from './schemas/reward-claim-log.schema';
-import { EventRewardModule } from '../../event-reward/event-reward.module';
+import {
+  RewardProvisionLog,
+  RewardProvisionLogSchema,
+} from './schemas/reward-provision-log.schema';
 
 @Module({
   imports: [
-    EventRewardModule,
     MongooseModule.forFeature([
       { name: RewardClaimLog.name, schema: RewardClaimLogSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: RewardProvisionLog.name, schema: RewardProvisionLogSchema },
     ]),
   ],
   controllers: [LogController],

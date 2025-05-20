@@ -13,7 +13,6 @@ export class RewardClaimService {
   ) {}
 
   async create(eventId: string, userId: string) {
-
     const event = await this.eventRewardService.findEvent(eventId);
     const reward = await this.eventRewardService.findReward(
       event?.rewardId || '',
@@ -29,17 +28,34 @@ export class RewardClaimService {
       if (error?.response?.resultState) {
         status = error.response.resultState;
       } else {
-        console.log(error)
+        console.log(error);
         status = CLAIM_RESULT_STATUS.FAILED;
       }
-      await this.logService.create(userId, eventId, status, reward?.id);
+      await this.logService.createRewardClaimLog(
+        userId,
+        eventId,
+        status,
+        reward?.id,
+      );
       return {
         success: status === CLAIM_RESULT_STATUS.SUCCESS,
         message: error.message,
       };
     }
 
-    await this.logService.create(userId, eventId, status, reward?.id);
+    await this.logService.createRewardClaimLog(
+      userId,
+      eventId,
+      status,
+      reward?.id,
+    );
+    if (event?.rewardId) {
+      await this.logService.createRewardProvisionLog(
+        userId,
+        eventId,
+        event.rewardId,
+      );
+    }
 
     return { success: status === CLAIM_RESULT_STATUS.SUCCESS };
   }

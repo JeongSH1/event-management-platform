@@ -91,6 +91,20 @@ export class EventApiService {
     });
   }
 
+  async proxyFindRewardProvisions(
+    query: any,
+    body: any,
+    headers: any,
+  ): Promise<any> {
+    return this.httpUtilService.request({
+      method: 'GET',
+      url: `${process.env.EVENT_SERVICE_ENDPOINT}/event/log/reward-provision`,
+      params: query,
+      data: body,
+      headers,
+    });
+  }
+
   async proxyCreateRewardClaim(
     params: any,
     query: any,
@@ -116,6 +130,20 @@ export class EventApiService {
     return this.httpUtilService.request({
       method: 'GET',
       url: `${process.env.EVENT_SERVICE_ENDPOINT}/event/reward-claim/log/my`,
+      params: query,
+      data: body,
+      headers,
+    });
+  }
+
+  async proxyFindMyRewardProvision(
+    query: any,
+    body: any,
+    headers: any,
+  ): Promise<any> {
+    return this.httpUtilService.request({
+      method: 'GET',
+      url: `${process.env.EVENT_SERVICE_ENDPOINT}/event/log/reward-provision/my`,
       params: query,
       data: body,
       headers,

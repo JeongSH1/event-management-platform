@@ -1,15 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { FindRewardClaimLogDto } from './dto/find-log.dto';
+import { FindRewardClaimLogDto } from './dto/find-reward-claim-log.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { EventRewardService } from '../../event-reward/event-reward.service';
 import { CLAIM_RESULT_STATUS } from './constants/claim-result-status.constant';
 import {
   RewardClaimLog,
   RewardClaimLogDocument,
 } from './schemas/reward-claim-log.schema';
 import { RewardClaimLogResponse } from './types/reward-claim-log-response.type';
-import { toRewardClaimLogResponse } from '../../util/mapper.util';
+import {
+  toRewardClaimLogResponse,
+  toRewardProvisionLogResponse,
+} from '../../util/mapper.util';
+import {
+  RewardProvisionLog,
+  RewardProvisionLogDocument,
+} from './schemas/reward-provision-log.schema';
+import { FindRewardProvisionLogDto } from './dto/find-reward-provision-log.dto';
+import { RewardProvisionLogResponse } from './types/reward-provision-log-response.type';
 
 @Injectable()
 export class LogService {
@@ -17,10 +25,11 @@ export class LogService {
     @InjectModel(RewardClaimLog.name)
     private readonly rewardClaimLogModel: Model<RewardClaimLogDocument>,
 
-    private readonly eventRewardService: EventRewardService,
+    @InjectModel(RewardProvisionLog.name)
+    private readonly rewardProvisionLogModel: Model<RewardProvisionLogDocument>,
   ) {}
 
-  async create(
+  async createRewardClaimLog(
     userId: string,
     eventId: string,
     status: CLAIM_RESULT_STATUS,
@@ -34,7 +43,49 @@ export class LogService {
     });
   }
 
-  async findLogs(
+  async createRewardProvisionLog(
+    userId: string,
+    eventId: string,
+    rewardId: string,
+  ): Promise<RewardProvisionLogDocument> {
+    return await this.rewardProvisionLogModel.create({
+      userId,
+      eventId,
+      rewardId,
+    });
+  }
+
+  async findRewardProvisionLogs(
+    query: FindRewardProvisionLogDto,
+  ): Promise<RewardProvisionLogResponse[]> {
+    const { userId, eventId, rewardId } = query;
+
+    const filter: any = {};
+
+    if (userId) filter.userId = userId;
+    if (eventId) filter.eventId = eventId;
+    if (rewardId) filter.rewardId = rewardId;
+
+    const rewardProvisionLogs = await this.rewardClaimLogModel
+      .find(filter)
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return rewardProvisionLogs.map(toRewardProvisionLogResponse);
+  }
+
+  async findMyRewardProvisionLogs(
+    userId: string,
+  ): Promise<RewardProvisionLogResponse[]> {
+    const rewardProvisionLogs = await this.rewardProvisionLogModel
+      .find({ userId })
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return rewardProvisionLogs.map(toRewardProvisionLogResponse);
+  }
+
+  async findRewardClaimLogs(
     query: FindRewardClaimLogDto,
   ): Promise<RewardClaimLogResponse[]> {
     const { userId, eventId, rewardId, status, fromDate, toDate } = query;
@@ -60,7 +111,9 @@ export class LogService {
     return rewardClaimLogs.map(toRewardClaimLogResponse);
   }
 
-  async findMyLogs(userId: string): Promise<RewardClaimLogResponse[]> {
+  async findMyRewardClaimLogs(
+    userId: string,
+  ): Promise<RewardClaimLogResponse[]> {
     const rewardClaimLogs = await this.rewardClaimLogModel
       .find({ userId })
       .sort({ createdAt: -1 })

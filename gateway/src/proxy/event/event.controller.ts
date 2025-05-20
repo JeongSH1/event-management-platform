@@ -85,9 +85,20 @@ export class EventProxyController {
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(Role.OPERATOR, Role.ADMIN, Role.AUDITOR)
-  @Get('reward-claim/log')
+  @Get('log/reward-claim')
   async findRewardClaims(@Req() req: Request) {
     return await this.eventApiService.proxyFindRewardClaims(
+      req.query,
+      req.body,
+      sanitizeHeaders(req.headers),
+    );
+  }
+
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.OPERATOR, Role.ADMIN, Role.AUDITOR)
+  @Get('log/reward-provision')
+  async findRewardProvisions(@Req() req: Request) {
+    return await this.eventApiService.proxyFindRewardProvisions(
       req.query,
       req.body,
       sanitizeHeaders(req.headers),
@@ -107,9 +118,19 @@ export class EventProxyController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('reward-claim/log/my')
+  @Get('log/reward-claim/my')
   async getMyRewardClaim(@Req() req: Request) {
     return await this.eventApiService.proxyFindMyRewardClaim(
+      req.query,
+      req.body,
+      sanitizeHeaders(req.headers, req.user),
+    );
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('log/reward-provision/my')
+  async getMyRewardProvision(@Req() req: Request) {
+    return await this.eventApiService.proxyFindMyRewardProvision(
       req.query,
       req.body,
       sanitizeHeaders(req.headers, req.user),

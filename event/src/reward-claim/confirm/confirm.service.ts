@@ -44,7 +44,7 @@ export class ConfirmService {
       });
     }
 
-    const existing = await this.logService.findLogs({
+    const existing = await this.logService.findRewardClaimLogs({
       userId,
       eventId: event.id,
       status: CLAIM_RESULT_STATUS.SUCCESS,
