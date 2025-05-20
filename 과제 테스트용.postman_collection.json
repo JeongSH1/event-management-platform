@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "802169be-eb00-4d48-bdd7-137db2434cf3",
+		"_postman_id": "b24bd457-f77d-4351-a278-1967bcb9c947",
 		"name": "과제 테스트용",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "42843990",
-		"_collection_link": "https://dark-robot-663425.postman.co/workspace/Team-Workspace~5cabe64e-5373-44cf-8b3d-43f36790c485/collection/42843990-802169be-eb00-4d48-bdd7-137db2434cf3?action=share&source=collection_link&creator=42843990"
+		"_collection_link": "https://dark-robot-663425.postman.co/workspace/Team-Workspace~5cabe64e-5373-44cf-8b3d-43f36790c485/collection/42843990-b24bd457-f77d-4351-a278-1967bcb9c947?action=share&source=collection_link&creator=42843990"
 	},
 	"item": [
 		{
@@ -369,7 +369,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"eventId\": \"evt_fb6d0298-ba26-4c17-8c3f-13f5c7d09912\",\n  \"description\": \"친구 초대 보상 패키지\",\n  \"rewardItems\": [\n    {\n      \"rewardItemCategoryCode\": \"game_item\",\n      \"quantity\": 1,\n      \"itemName\": \"익스트림 성장의 비약\"\n    },\n    {\n      \"rewardItemCategoryCode\": \"maple_point\",\n      \"quantity\": 1000\n    }\n  ]\n}",
+									"raw": "{\n  \"eventId\": \"evt_id_example\", //eventId 예시\n  \"description\": \"친구 초대 보상 패키지\",\n  \"rewardItems\": [\n    {\n      \"rewardItemCategoryCode\": \"game_item\",\n      \"quantity\": 1,\n      \"itemName\": \"익스트림 성장의 비약\"\n    },\n    {\n      \"rewardItemCategoryCode\": \"maple_point\",\n      \"quantity\": 1000\n    }\n  ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
