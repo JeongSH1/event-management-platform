@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "55cc099f-80e1-41ec-88fa-611db7220aba",
+		"_postman_id": "b8bdd5e4-ed9a-4ed6-b4d2-9f3ed3974cb7",
 		"name": "과제 테스트용",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "31142133"
+		"_exporter_id": "42843990",
+		"_collection_link": "https://dark-robot-663425.postman.co/workspace/Team-Workspace~5cabe64e-5373-44cf-8b3d-43f36790c485/collection/42843990-b8bdd5e4-ed9a-4ed6-b4d2-9f3ed3974cb7?action=share&source=collection_link&creator=42843990"
 	},
 	"item": [
 		{
@@ -247,7 +248,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"title\": \"친구 초대 이벤트\",\n    \"description\": \"3명 이상 친구를 초대하면 보상을 드립니다.\",\n    \"startAt\": \"2025-06-01T00:00:00.000Z\",\n    \"endAt\": \"2025-06-30T23:59:59.999Z\",\n    \"status\": \"active\",\n    \"conditions\": [\n        {\n            \"conditionCategoryCode\": \"has_recommender\",\n            \"threshold\": 3,\n            \"startAt\": \"2025-06-01T00:00:00.000Z\",\n            \"endAt\": \"2025-06-30T23:59:59.999Z\"\n        }\n    ]\n}",
+									"raw": "{\n    \"title\": \"친구 초대 이벤트\",\n    \"description\": \"3명 이상 친구를 초대하면 보상을 드립니다.\",\n    \"startAt\": \"2025-05-01T00:00:00.000Z\",\n    \"endAt\": \"2025-06-30T23:59:59.999Z\",\n    \"status\": \"active\",\n    \"conditions\": [\n        \n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -489,14 +490,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/event/reward-claim/log",
+									"raw": "{{base_url}}/event/log/reward-claim",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"event",
-										"reward-claim",
-										"log"
+										"log",
+										"reward-claim"
 									]
 								}
 							},
@@ -508,14 +509,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/event/reward-claim/log?status=success",
+									"raw": "{{base_url}}/event/log/reward-claim?status=success",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"event",
-										"reward-claim",
-										"log"
+										"log",
+										"reward-claim"
 									],
 									"query": [
 										{
@@ -540,6 +541,81 @@
 											"key": "status",
 											"value": "success",
 											"description": "(optional) success | failed | condition_not_met | event_inactive | duplicate"
+										},
+										{
+											"key": "fromDate",
+											"value": null,
+											"description": "(optional) YYYY-MM-DD",
+											"disabled": true
+										},
+										{
+											"key": "toDate",
+											"value": null,
+											"description": "(optional) YYYY-MM-DD",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "\b유저 보상 내역 조회",
+					"item": [
+						{
+							"name": "전체 보상 내역 조회",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/event/log/reward-provision",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"event",
+										"log",
+										"reward-provision"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "조건별 보상 내역 조회",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/event/log/reward-provision",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"event",
+										"log",
+										"reward-provision"
+									],
+									"query": [
+										{
+											"key": "usesrId",
+											"value": "",
+											"description": "(optional)",
+											"disabled": true
+										},
+										{
+											"key": "eventId",
+											"value": null,
+											"description": "(optional)",
+											"disabled": true
+										},
+										{
+											"key": "rewardId",
+											"value": null,
+											"description": "(optional)",
+											"disabled": true
 										},
 										{
 											"key": "fromDate",
@@ -742,7 +818,7 @@
 									"variable": [
 										{
 											"key": "eventId",
-											"value": "evt_661c994a-da23-4f21-ad1a-97d73f0836dc"
+											"value": ""
 										}
 									]
 								}
@@ -760,15 +836,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/event/reward-claim/log/my",
+									"raw": "{{base_url}}/event/log/reward-claim",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"event",
-										"reward-claim",
 										"log",
-										"my"
+										"reward-claim"
 									]
 								}
 							},
@@ -932,6 +1007,31 @@
 											"key": "action",
 											"value": "recommended"
 										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "자신의 보상 내역 조회",
+					"item": [
+						{
+							"name": "자신의 보상 요청 내역 조회",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/event/log/reward-provision/my",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"event",
+										"log",
+										"reward-provision",
+										"my"
 									]
 								}
 							},
