@@ -33,10 +33,9 @@ export class AttendanceController {
 
   @Get(':userId')
   findAttendance(
-    @Param() userId: string,
+    @Param('userId') userId: string,
     @Query() findAttendanceDto: FindAttendanceDto,
   ) {
-    console.log(userId)
     return this.attendanceService.findUserAttendanceByDuration(
       userId,
       findAttendanceDto,

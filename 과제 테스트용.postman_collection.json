@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "6de2be7a-4a0c-4eec-b8ef-62d3844b9a51",
+		"_postman_id": "802169be-eb00-4d48-bdd7-137db2434cf3",
 		"name": "과제 테스트용",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "42843990",
-		"_collection_link": "https://dark-robot-663425.postman.co/workspace/Team-Workspace~5cabe64e-5373-44cf-8b3d-43f36790c485/collection/42843990-6de2be7a-4a0c-4eec-b8ef-62d3844b9a51?action=share&source=collection_link&creator=42843990"
+		"_collection_link": "https://dark-robot-663425.postman.co/workspace/Team-Workspace~5cabe64e-5373-44cf-8b3d-43f36790c485/collection/42843990-802169be-eb00-4d48-bdd7-137db2434cf3?action=share&source=collection_link&creator=42843990"
 	},
 	"item": [
 		{
@@ -836,14 +836,15 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base_url}}/event/log/reward-claim",
+									"raw": "{{base_url}}/event/log/reward-claim/my",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
 										"event",
 										"log",
-										"reward-claim"
+										"reward-claim",
+										"my"
 									]
 								}
 							},
@@ -1018,7 +1019,7 @@
 					"name": "자신의 보상 내역 조회",
 					"item": [
 						{
-							"name": "자신의 보상 요청 내역 조회",
+							"name": "자신의 보상 내역 조회",
 							"request": {
 								"method": "GET",
 								"header": [],
