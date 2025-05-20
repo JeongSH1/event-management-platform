@@ -84,7 +84,7 @@ export class EventApiService {
   ): Promise<any> {
     return this.httpUtilService.request({
       method: 'GET',
-      url: `${process.env.EVENT_SERVICE_ENDPOINT}/event/reward-claim/log`,
+      url: `${process.env.EVENT_SERVICE_ENDPOINT}/event/log/reward-claim`,
       params: query,
       data: body,
       headers,
@@ -129,7 +129,7 @@ export class EventApiService {
   ): Promise<any> {
     return this.httpUtilService.request({
       method: 'GET',
-      url: `${process.env.EVENT_SERVICE_ENDPOINT}/event/reward-claim/log/my`,
+      url: `${process.env.EVENT_SERVICE_ENDPOINT}/event/log/reward-claim/my`,
       params: query,
       data: body,
       headers,

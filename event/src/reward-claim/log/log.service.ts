@@ -66,7 +66,7 @@ export class LogService {
     if (eventId) filter.eventId = eventId;
     if (rewardId) filter.rewardId = rewardId;
 
-    const rewardProvisionLogs = await this.rewardClaimLogModel
+    const rewardProvisionLogs = await this.rewardProvisionLogModel
       .find(filter)
       .sort({ createdAt: -1 })
       .lean();
